@@ -1,0 +1,44 @@
+generated: '2026-08-17'
+method: searched
+source: https://docs.pixeltable.com/.well-known/agent-skills/pixeltable/skill.md
+note: 'Pixeltable PUBLISHES its own Agent Skill — this is a harvested provider artifact, not one API Evangelist
+  generated. The skill is served from the documentation host at the well-known agent-skills path, is
+  referenced by skills[0].url in the docs A2A agent card, is distributed as a repository
+  (github.com/pixeltable/pixeltable-skill), and is installable with `npx skills add pixeltable/pixeltable-skill`.
+  No skills were generated for this provider: Pixeltable publishes no OpenAPI (its own
+  https://pixeltable.com/openapi.json returns {"status":"planned"}), so there are no operationIds to ground a
+  generated skill in. The provider-published skill is the stronger artifact regardless.'
+skills:
+- file: pixeltable-skill.md
+  name: Pixeltable
+  description: 'Use when building multimodal AI applications, processing images/video/audio/documents, creating
+    RAG pipelines, building agents with tool calling, or exposing data operations as HTTP APIs. Agents should
+    reach for this skill when working with declarative data pipelines, computed columns, embedding indexes, or
+    serving tables over HTTP.'
+  method: searched
+  source: https://docs.pixeltable.com/.well-known/agent-skills/pixeltable/skill.md
+  http_status: 200
+  bytes: 10912
+  version: '1.0'
+  api: python-library
+  install: npx skills add pixeltable/pixeltable-skill
+  repository: https://github.com/pixeltable/pixeltable-skill
+  covers:
+  - declarative tables with multimodal column types
+  - computed columns for incremental LLM and model inference
+  - embedding indexes and similarity search
+  - views and iterators for chunking, frame extraction, audio splitting
+  - Python UDFs and query functions
+  - tool-calling agents
+  - HTTP serving via pxt serve and FastAPIRouter
+  - 25-plus AI provider integrations
+  - the pxt CLI and config.toml
+related_provider_artifacts:
+- name: AGENTS.md
+  url: https://github.com/pixeltable/pixeltable/blob/main/AGENTS.md
+  note: Architecture guide for AI agents in the core repository, referenced from llms.txt. Not harvested here
+    (repository file, not a served skill document).
+- name: pixeltable-eval
+  url: https://github.com/pixeltable/pixeltable-eval
+  note: 'Provider-run eval harness measuring how well AI coding agents write Pixeltable code (16 evals,
+    LLM-as-judge grading) — the provider measures its own agent-readiness.'

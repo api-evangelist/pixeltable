@@ -1,0 +1,130 @@
+generated: '2026-08-17'
+method: probed
+source: 'live unauthenticated probes of the Pixeltable HTTP surfaces, plus the documented error contract at
+  https://pixeltable.com/status'
+format: vendor-json
+note: 'PROBED, PLUS ONE SEARCHED CONTRACT. Pixeltable publishes no OpenAPI
+  (https://pixeltable.com/openapi.json returns {"status":"planned"}), so there are no 4xx/5xx response
+  schemas to derive from. Every `problems[]` entry below is an error envelope actually observed on a live
+  request on 2026-08-17. Errors are NOT RFC 9457 problem+json: several envelope shapes are in use across the
+  four surfaces, and none sets application/problem+json. Note the DIVERGENCE recorded under
+  documented_envelope: the shape the provider documents is not the shape its live endpoint returns.'
+documented_envelope:
+  method: searched
+  source: https://pixeltable.com/status
+  section: Error handling for agents
+  published_shape: |
+    {
+      "error": {
+        "code": "rate_limited",
+        "message": "Too many requests. Retry after the indicated delay.",
+        "status": 429,
+        "retryable": true
+      }
+    }
+  fields:
+  - name: error.code
+    description: 'Machine-readable error code (example given: rate_limited).'
+  - name: error.message
+    description: Actionable human-readable message.
+  - name: error.status
+    description: Mirror of the HTTP status code.
+  - name: error.retryable
+    description: Boolean telling a client whether the request may be retried. The only runtime retry signal
+      this provider offers, since no Retry-After header is sent.
+  documented_status_semantics:
+    400: invalid request
+    401: authentication required
+    403: forbidden
+    404: not found
+    429: rate limited
+    5xx: transient server error
+  divergence:
+    observed: false
+    detail: 'The documented envelope nests an OBJECT under `error` with code/message/status/retryable. The live
+      /ask endpoint instead returned a flat STRING under `error`
+      ({"error":"A non-empty `query` is required."}) — no code, no status, no retryable flag. The gated cloud
+      control plane returned a third shape ({"message":...,"reason":...}). An agent coded against the
+      documented contract would fail to read `error.code` on a real 400. Worth reporting to the provider.'
+envelopes:
+- shape: '{"error": "<message>"}'
+  used_by:
+  - https://pixeltable.com/ask
+  content_type: application/json
+- shape: '{"message": "<message>", "reason": "<machine_code>"}'
+  used_by:
+  - https://pixeltable.com/api/v1
+  - https://pixeltable.com/api/graphql
+  content_type: application/json
+  note: The only envelope carrying a machine-readable reason code.
+- shape: 'plain text: "<Status> : <detail>"'
+  used_by:
+  - https://internal-api.pixeltable.com
+  content_type: application/json
+  note: Content-Type claims JSON but the body is not JSON — it is a colon-delimited string.
+- shape: JSON-RPC 2.0 error object
+  used_by:
+  - https://pixeltable.com/mcp
+  content_type: application/json
+  note: 'The MCP endpoint follows JSON-RPC 2.0, so its error contract is the JSON-RPC error object
+    ({"jsonrpc":"2.0","id":...,"error":{"code":...,"message":...}}). Not induced during this pass; declared by
+    the protocol the server advertises (protocolVersion 2025-06-18).'
+problems:
+- status: 400
+  surface: https://pixeltable.com/ask
+  api: pixeltable-ask
+  title: Missing query
+  body: '{"error":"A non-empty `query` is required."}'
+  envelope: '{"error": "<message>"}'
+  remediation: POST a JSON body containing a non-empty `query` string.
+  method: probed
+- status: 401
+  surface: https://pixeltable.com/api/v1
+  api: pixeltable-cloud-control-plane
+  title: Authentication required
+  body: '{"message":"Authentication required","reason":"no_session_cookie_provided"}'
+  envelope: '{"message": "<message>", "reason": "<machine_code>"}'
+  reason_code: no_session_cookie_provided
+  remediation: 'Authenticate through WorkOS AuthKit to obtain a session cookie. Supplying only an X-api-key
+    header did not satisfy this endpoint — the same 401 with the same reason code was returned.'
+  method: probed
+- status: 404
+  surface: https://pixeltable.com
+  title: Not found
+  body: HTML page (the site 404 view, 67583 bytes)
+  envelope: html
+  remediation: 'Unmatched paths on the marketing host render the HTML 404 page rather than a JSON error, so a
+    client must not assume a JSON body on 404.'
+  method: probed
+- status: 405
+  surface: https://docs.pixeltable.com
+  title: Method not allowed
+  body: 'Method not allowed / FUNCTION_INVOCATION_FAILED'
+  envelope: plain text
+  remediation: The documentation host accepts GET only.
+  method: probed
+- status: 500
+  surface: https://internal-api.pixeltable.com
+  api: pixeltable-cloud-control-plane
+  title: Internal Server Error
+  body: 'Internal Server Error : Internal operation '''' failed'
+  envelope: 'plain text: "<Status> : <detail>"'
+  remediation: 'No remediation available to an unauthenticated caller. The control-plane host answers 500 —
+    not 401 — to every anonymous request including /.well-known/* paths, which means an agent cannot
+    distinguish "not authorized" from "broken" on this host.'
+  method: probed
+  observation: 'This is a discoverability defect worth reporting to the provider: an authenticated-only API
+    should answer 401/403 with a challenge, not 500.'
+- status: 400
+  surface: https://internal-api.pixeltable.com/graphql
+  api: pixeltable-cloud-control-plane
+  title: Invalid request
+  body: 'Bad Request : Invalid request: 1 validation error for PxtOperation'
+  envelope: 'plain text: "<Status> : <detail>"'
+  remediation: 'Not a GraphQL endpoint. The host validates every path against an internal PxtOperation model
+    and rejects unrecognised shapes.'
+  method: probed
+rfc9457_conformance:
+  conforms: false
+  evidence: 'No response observed used Content-Type application/problem+json, and no body carried the
+    type/title/status/detail/instance members RFC 9457 defines.'

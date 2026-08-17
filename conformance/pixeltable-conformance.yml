@@ -1,0 +1,144 @@
+generated: '2026-08-17'
+method: probed
+source: 'live probes of the Pixeltable agent surfaces plus provider documentation'
+note: 'Which cross-cutting standards Pixeltable actually conforms to. This provider is an outlier: it conforms
+  to the NEWER agent-era specifications (MCP, A2A, llms.txt, Agent Skills) while conforming to almost none of
+  the classic HTTP API standards, because it publishes no REST API yet. Every `conforms: true` below was
+  established by a live probe, not by a provider claim.'
+standards:
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  version: '2025-06-18'
+  evidence: 'POST https://pixeltable.com/mcp returned HTTP 200 to an anonymous JSON-RPC 2.0 tools/list with
+    real inputSchema per tool, and to initialize with serverInfo pixeltable-web 1.0.0 and protocolVersion
+    2025-06-18.'
+  artifact: mcp/pixeltable-mcp.yml
+- id: a2a
+  name: Agent2Agent Protocol
+  conforms: true
+  version: 0.3.0
+  grade: conformant
+  evidence: 'https://www.pixeltable.com/.well-known/agent-card.json returned HTTP 200 with an agent card that
+    passes all three A2A 1.0.0 hard checks — capabilities is an object, protocolVersion is present, skills is
+    an array.'
+  artifact: a2a/pixeltable-a2a.yml
+- id: json-rpc-2.0
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: The WebMCP endpoint accepts and returns well-formed JSON-RPC 2.0 envelopes (verified on tools/list
+    and initialize).
+- id: llms-txt
+  name: llms.txt
+  conforms: true
+  evidence: 'Four scoped llms.txt-family documents served with HTTP 200 and correct format (H1, blockquote
+    summary, sectioned link lists): apex, /developers, /blog, and docs llms-full.txt.'
+  artifact: llms/pixeltable-llms.txt
+- id: agent-skills
+  name: Agent Skills
+  conforms: true
+  evidence: 'A skill document with valid frontmatter (name, description, metadata.version) is served at
+    https://docs.pixeltable.com/.well-known/agent-skills/pixeltable/skill.md (HTTP 200, text/markdown) and is
+    referenced by the docs agent card. Also distributed as an installable skill package.'
+  artifact: skills/_index.yml
+- id: nlweb
+  name: NLWeb
+  conforms: true
+  evidence: 'POST https://pixeltable.com/ask returned HTTP 200 with schema.org-typed results (@type WebPage)
+    and a query_id, and the provider labels the endpoint protocol "NLWeb" in /.well-known/agent.json.'
+- id: schema-org
+  name: schema.org structured data
+  conforms: true
+  evidence: '/ask results are schema.org-typed; the homepage carries WebSite structured data; the provider
+    publishes a schema-map.xml.'
+- id: rfc8615-well-known
+  name: RFC 8615 well-known URIs
+  conforms: true
+  evidence: 'Six real documents served under /.well-known/ across two hosts (two agent cards, two MCP server
+    cards, a capability manifest, an agent skill).'
+  artifact: well-known/pixeltable-well-known.yml
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: 'https://pixeltable.com/openapi.json returns HTTP 200 but its body is
+    {"status":"planned","message":"Public Pixeltable Cloud REST API OpenAPI spec is in active development."} —
+    an honest placeholder, not a spec. No OpenAPI/Swagger document was found on any host, including
+    /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc on the apex, docs and
+    internal-api hosts.'
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: '/asyncapi.yaml 404s on the apex and docs hosts. No event, streaming or webhook catalogue is
+    published; webhooks appear only as an Enterprise-tier "custom integrations (API / webhooks)" bullet on the
+    pricing page. Not applicable rather than deficient — there is no public event surface to describe.'
+- id: graphql
+  name: GraphQL
+  conforms: false
+  evidence: 'No GraphQL surface. /graphql 404s on the apex host, /api/graphql returns 401
+    no_session_cookie_provided (the generic control-plane gate, not a GraphQL endpoint), and
+    internal-api.pixeltable.com/graphql returns 400 "Invalid request: 1 validation error for PxtOperation".'
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details
+  conforms: false
+  evidence: 'No response used Content-Type application/problem+json and no body carried
+    type/title/status/detail/instance. Four different error envelope shapes are in use across the surfaces.'
+  artifact: errors/pixeltable-problem-types.yml
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: 'No OAuth surface is exposed. /.well-known/oauth-authorization-server and
+    /.well-known/oauth-protected-resource both 404 on every host. The provider states scoped OAuth is planned
+    for the forthcoming public REST API. Cloud auth today is a WorkOS AuthKit session (WorkOS implements OAuth
+    internally, but Pixeltable exposes no OAuth endpoints of its own).'
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration 404s on every host.
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: '/.well-known/security.txt 404s on every host, though a security contact
+    (security@pixeltable.com) IS published on the HTML security page.'
+- id: rfc8594-sunset
+  name: RFC 8594 Sunset header
+  conforms: false
+  evidence: No Sunset or Deprecation headers, and no deprecation policy is published.
+- id: idempotency-key
+  name: Idempotency-Key header
+  conforms: false
+  evidence: 'Explicitly not yet implemented. The status page states "Once the public REST API ships, mutating
+    requests will support an Idempotency-Key header so retries are safe." No mutating public HTTP surface
+    exists today.'
+- id: http-strict-transport-security
+  name: HSTS
+  conforms: true
+  evidence: 'All three reachable hosts serve Strict-Transport-Security; max-age 31536000 on the apex and www
+    hosts, 63072000 on docs.'
+  artifact: security/pixeltable-domain-security.yml
+- id: tls-1.3
+  name: TLS 1.3
+  conforms: true
+  evidence: TLSv1.3 negotiated on www.pixeltable.com, pixeltable.com and docs.pixeltable.com.
+- id: dnssec
+  name: DNSSEC
+  conforms: false
+  evidence: 'Not signed for pixeltable.com; no CAA records either. SPF and DMARC are present, DMARC policy
+    reject.'
+- id: apache-2.0
+  name: Apache License 2.0
+  conforms: true
+  evidence: 'The pricing page states Pixeltable is open source under Apache 2.0 and free to self-host;
+    the core library is published at github.com/pixeltable/pixeltable.'
+compliance_program:
+  published: false
+  certifications: []
+  note: 'No certifications are claimed anywhere on the public surface and no trust centre exists, so no
+    `Compliance` pointer is emitted. See security/pixeltable-vulnerability-disclosure.yml.'
+summary:
+  conforms_count: 10
+  not_conforms_count: 10
+  agent_era_standards: 7 of 7 conformant (MCP, A2A, JSON-RPC, llms.txt, Agent Skills, NLWeb, well-known)
+  classic_api_standards: 0 of 6 conformant (OpenAPI, AsyncAPI, GraphQL, RFC 9457, OAuth2, OIDC)
+  note: 'The defining shape of this provider: Pixeltable built the agent surface first and the REST surface not
+    at all. It is one of the few catalogued providers with a live MCP server, a conformant A2A card and a
+    published Agent Skill but no OpenAPI.'

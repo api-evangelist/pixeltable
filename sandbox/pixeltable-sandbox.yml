@@ -1,0 +1,109 @@
+generated: '2026-08-17'
+method: probed
+source: 'https://pixeltable.com/llms.txt, https://pixeltable.com/data-products, https://pixeltable.com/tools,
+  plus live probes'
+note: 'THERE IS NO TEST-VS-LIVE SANDBOX in the payments sense — no test-mode key prefixes, no magic test
+  values, no test clocks, no fixture triggers. Recording that plainly rather than forcing the artifact shape.
+  What Pixeltable offers instead is more unusual and arguably stronger: the entire product runs locally with no
+  credential at all, and two public agent endpoints answer anonymously. This artifact captures what a developer
+  or agent can actually exercise before signing up.'
+test_live_separation:
+  exists: false
+  key_prefixes: []
+  modes: []
+  note: 'No test/live mode distinction is published. Cloud API keys are sent as X-api-key with no documented
+    prefix convention, and there is no sandbox tenant.'
+zero_credential_paths:
+- name: Local install
+  type: self-hosted
+  auth: none
+  command: pip install pixeltable
+  note: 'The full product — storage, computed columns, embedding indexes, serving — runs locally with no account
+    and no API key. It bundles its own Postgres (pixeltable-pgserver), so there are no external services to
+    provision. This is the real "sandbox": Apache 2.0, free forever, feature-complete per the pricing page.'
+  verified: searched
+- name: Scaffolded starter app
+  type: template
+  auth: none
+  command: uvx pixeltable-new myapp
+  variants:
+  - uvx pixeltable-new myapp             # declarative serving (default)
+  - uvx pixeltable-new myapp --backend   # full FastAPI + React app
+  - uvx pixeltable-new myapp --batch     # batch processing script
+  - uvx pixeltable-new myapp --json      # structured output for AI tools
+  note: Runs without installing Pixeltable first; fetches a template from the Starter Kit.
+  repository: https://github.com/pixeltable/pixeltable-starter-kit
+  verified: searched
+- name: WebMCP server
+  type: live-anonymous-endpoint
+  url: https://pixeltable.com/mcp
+  auth: none
+  read_only: true
+  note: 'Callable right now with no credential. An anonymous JSON-RPC tools/list returned HTTP 200 with both
+    tools and their inputSchemas. This is the most directly exercisable surface Pixeltable has.'
+  verified: probed
+- name: Ask endpoint
+  type: live-anonymous-endpoint
+  url: https://pixeltable.com/ask
+  auth: none
+  method: POST
+  required_body: '{"query": "<question>"}'
+  rate_limit: 20 requests per minute per IP
+  note: Answered an anonymous POST with HTTP 200 and grounded schema.org-typed results.
+  verified: probed
+consoles:
+- name: Local dashboard
+  type: local-console
+  command: pxt dashboard
+  auth: none
+  note: 'Browser dashboard bundled with the library for browsing tables, media and pipeline DAGs. Redesigned
+    with a sticky catalog switcher in v0.7.2. No account required.'
+  verified: searched
+- name: Pixeltable Cloud dashboard
+  type: hosted-console
+  url: https://pixeltable.com/dashboard
+  auth: WorkOS AuthKit session
+  note: '302s to signin.pixeltable.com — account required. Browses tables, media, pipeline DAGs and storage.'
+  verified: probed
+  http_status: 200
+free_tier:
+  exists: true
+  plans:
+  - Self-Hosted (free forever, Apache 2.0)
+  - Community ($0 + usage, $30/mo compute credit)
+  detail: plans/pixeltable-plans-pricing.yml
+public_datasets:
+  advertised: true
+  available: false
+  catalog_url: https://pixeltable.com/data-products
+  advertised_example: "pxt.replicate(remote_uri='pxt://pixeltable:fiftyone/coco_mini_2017', local_path='coco')"
+  advertised_at: https://pixeltable.com/llms.txt
+  note: 'DIVERGENCE WORTH REPORTING. llms.txt presents public datasets as a Cloud feature and gives a concrete
+    replicate example against pxt://pixeltable:fiftyone/coco_mini_2017, and states that public datasets require
+    no account. The catalogue page itself says "No public datasets are currently available. Check back soon or
+    browse our documentation." Separately, changelog v0.6.6 (2026-06-23) records that data sharing and replica
+    functionality was REMOVED from the library, before v0.7.0 reintroduced cloud-hosted database support. So the
+    example URI in llms.txt is not currently replicable and was NOT treated as a verified test fixture here.'
+  verified: probed
+demo_applications:
+- name: Pixelbot
+  url: https://agent.pixeltable.com/
+  repository: https://github.com/pixeltable/pixelbot
+  description: Multimodal AI agent and interactive data studio with on-demand ML inference, media generation and
+    a database explorer.
+  http_status: 522
+  verified: probed
+  note: 'CURRENTLY DOWN. Returned HTTP 522 (Cloudflare connection timed out) on 2026-08-17. It is linked from
+    the site footer as "Pixelbot" and surfaced in search results as a live demo, so the outage is
+    user-visible. The status page does not list it among its four monitored components.'
+- name: Free tools
+  url: https://pixeltable.com/tools
+  http_status: 200
+  verified: probed
+  note: Linked from the footer as "Free Tools"; browser-based utilities built on Pixeltable.
+test_values:
+  published: []
+  note: 'CHECKED, NOTHING TO RECORD. No test card numbers, test identifiers, magic values, sample tokens or
+    fixture generators are published — consistent with an infrastructure library rather than a transactional
+    API. Sample DATA is plentiful in the documentation (tutorial datasets, example media URLs), but those are
+    teaching material, not sandbox fixtures, and were not harvested as such.'

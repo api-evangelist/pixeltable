@@ -1,0 +1,136 @@
+generated: '2026-08-17'
+method: searched
+source: 'https://pixeltable.com/status, https://www.pixeltable.com/.well-known/agent.json,
+  https://pixeltable.com/llms.txt, https://docs.pixeltable.com/llms-full.txt, plus live probes'
+note: 'Cross-cutting semantics for Pixeltable''s HTTP surfaces. There is no OpenAPI to derive from, so every
+  entry is either searched from provider documentation or observed on a live request. Read alongside
+  errors/pixeltable-problem-types.yml, rate-limits/pixeltable-rate-limits.yml,
+  authentication/pixeltable-authentication.yml and lifecycle/pixeltable-lifecycle.yml.'
+authentication:
+  style: per-surface
+  summary: 'Anonymous on the two public agent endpoints (/ask, /mcp); X-api-key claimed plus a WorkOS AuthKit
+    session required on the cloud control plane; none for the open-source library.'
+  detail: authentication/pixeltable-authentication.yml
+idempotency:
+  supported: false
+  http_header: null
+  status: planned
+  published: 'Once the public REST API ships, mutating requests will support an Idempotency-Key header so
+    retries are safe.'
+  source: https://pixeltable.com/status
+  note: 'EXPLICITLY NOT YET SUPPORTED, in the provider''s own words. No Idempotency-Key header exists on any
+    live surface today: /ask and /mcp are read-only and the public REST API that would carry the header has
+    not shipped. No `Idempotency` pointer is emitted in apis.yml for this provider, because the contract is a
+    stated future intention rather than a shipped capability.'
+  library_level_semantics:
+    note: 'Distinct from HTTP idempotency and NOT a substitute for it. The Python library does provide
+      idempotent DDL: create/add operations accept an `if_exists` argument (`ignore`, `replace`, `error`) so
+      re-running a declarative schema script converges rather than failing. `pxt schema update` and
+      `pxt schema diff` apply the same converge-to-declared-state model. This makes the LIBRARY safe to re-run;
+      it says nothing about HTTP request retries.'
+    example: "pxt.create_table(name, schema, if_exists='ignore')"
+pagination:
+  http:
+    supported: false
+    note: No paginated HTTP collection endpoints are published; /ask returns a single bounded result set and
+      /mcp is JSON-RPC.
+  library:
+    style: query-builder
+    params:
+    - limit
+    - order_by
+    note: 'Result-set size is controlled in the query expression — `.order_by(sim, asc=False).limit(10)` —
+      then materialised with `.collect()`. There is no cursor or page-token concept.'
+content_negotiation:
+  markdown_twin: true
+  mechanisms:
+  - method: url-suffix
+    pattern: https://pixeltable.com/{path}.md
+    example: https://pixeltable.com/pricing.md
+    verified: probed
+  - method: accept-header
+    header: 'Accept: text/markdown'
+    verified: searched
+  note: 'A genuine agent-first convention: most public pages have a markdown representation reachable either by
+    appending .md or by sending Accept: text/markdown. Verified — https://pixeltable.com/pricing.md returned
+    HTTP 200 text/markdown with YAML frontmatter (title, description, url) followed by the full pricing
+    content, while /security.md returned a frontmatter-only metadata stub pointing back at the HTML page. So
+    coverage is real but uneven: some paths give full content, others only a summary.'
+scoped_context_files:
+  note: 'Rather than one llms.txt, Pixeltable publishes several scoped context documents so an agent can pull
+    only the slice it needs. This is the most distinctive convention in this profile.'
+  documents:
+  - url: https://pixeltable.com/llms.txt
+    scope: product overview, install, quick start, task router, critical warnings, core patterns
+    bytes: 15070
+  - url: https://pixeltable.com/developers/llms.txt
+    scope: install, SDKs, CLI, serving, MCP, agent tooling, authentication
+    bytes: 1719
+  - url: https://pixeltable.com/blog/llms.txt
+    scope: every blog post as plain text
+    bytes: 2009775
+  - url: https://docs.pixeltable.com/llms-full.txt
+    scope: complete documentation as plain text
+    bytes: 1923473
+  anti_pattern_guidance:
+    note: 'llms.txt carries a "Critical Warnings" section listing the seven mistakes LLMs most often make
+      writing Pixeltable code (e.g. `openai.vision` does not exist; cast to pxt.String before embedding; do
+      not write `for row` loops; do not layer LangChain on top). Publishing negative guidance aimed at code
+      generators is rare and materially raises agent success rate.'
+error_envelope:
+  documented_shape: '{"error": {"code", "message", "status", "retryable"}}'
+  observed_shapes:
+  - '{"error": "<string>"}'
+  - '{"message": "<string>", "reason": "<code>"}'
+  - 'plain text "<Status> : <detail>"'
+  - JSON-RPC 2.0 error object
+  rfc9457: false
+  divergence: true
+  detail: errors/pixeltable-problem-types.yml
+rate_limit_signaling:
+  documented_limit: 20 requests per minute per IP on /ask
+  status_on_exhaustion: 429
+  response_headers: none
+  retry_algorithm: 'exponential backoff from ~1s, doubling, capped ~30s, with jitter, max 5 attempts;
+    non-429 4xx treated as non-retryable'
+  retryable_flag: error.retryable boolean in the documented envelope
+  detail: rate-limits/pixeltable-rate-limits.yml
+request_tracing:
+  request_id_header: none
+  response_correlation_id: query_id
+  note: 'No X-Request-Id / traceparent header was observed on any response. The /ask endpoint does return a
+    `query_id` UUID in its JSON body (e.g. 8a276278-d7e5-4924-9257-3dd79e396a34), which is the only
+    correlation handle available to a client. The library itself gained OpenTelemetry instrumentation in
+    v0.6.8, but that instruments local pipeline execution, not the public HTTP surfaces.'
+versioning:
+  http_api: none
+  path_prefix_observed: /api/v1 (cloud control plane, gated)
+  library: semver on the pixeltable PyPI package
+  docs_versioning: 'https://docs.pixeltable.com/sdk/latest/pixeltable — the SDK reference is served under a
+    `latest` path segment, implying versioned SDK docs.'
+  detail: lifecycle/pixeltable-lifecycle.yml
+transport_conventions:
+- surface: https://pixeltable.com/mcp
+  protocol: JSON-RPC 2.0 over HTTP (WebMCP)
+  protocol_version: '2025-06-18'
+  methods:
+  - initialize
+  - tools/list
+  - tools/call
+  cors_allow_headers:
+  - Content-Type
+  - Accept
+  - Mcp-Session-Id
+  security_headers:
+    x_content_type_options: nosniff
+  note: Observed CORS and nosniff headers on a live tools/list response.
+- surface: https://pixeltable.com/ask
+  protocol: NLWeb
+  method: POST
+  streaming: SSE
+  required_body_field: query
+  response_shape: 'schema.org-typed results (@type WebPage) plus a query_id'
+syndication:
+  schema_map: https://pixeltable.com/schema-map.xml
+  sitemap: https://pixeltable.com/sitemap.xml
+  blog_rss: https://pixeltable.com/blog/feed.xml

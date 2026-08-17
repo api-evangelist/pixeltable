@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0",
+  "name": "Pixeltable",
+  "description": "Open-source Python and TypeScript AI data infrastructure that unifies multimodal storage, transformation, indexing, vector search, and serving through declarative computed columns.",
+  "url": "https://pixeltable.com",
+  "version": "1.0.0",
+  "documentationUrl": "https://docs.pixeltable.com",
+  "provider": {
+    "organization": "Pixeltable",
+    "url": "https://pixeltable.com"
+  },
+  "documentation": {
+    "llms": "https://pixeltable.com/llms.txt",
+    "llms_full": "https://docs.pixeltable.com/llms-full.txt",
+    "developers": "https://pixeltable.com/developers/llms.txt",
+    "docs": "https://docs.pixeltable.com",
+    "blog": "https://pixeltable.com/blog/llms.txt",
+    "pricing": "https://pixeltable.com/pricing.md",
+    "openapi": "https://pixeltable.com/openapi.json",
+    "openapi_status": "planned"
+  },
+  "authentication": {
+    "open_source": {
+      "type": "none",
+      "note": "pip install pixeltable — no auth required"
+    },
+    "cloud_dashboard": {
+      "type": "session",
+      "provider": "WorkOS AuthKit",
+      "signup_url": "https://pixeltable.com/signup"
+    },
+    "cloud_api": {
+      "type": "api_key",
+      "header": "X-api-key",
+      "status": "available",
+      "docs": "https://pixeltable.com/developers/llms.txt"
+    },
+    "public_rest_api": {
+      "type": "oauth_scoped",
+      "status": "planned"
+    }
+  },
+  "capability_tags": [
+    "multimodal_storage",
+    "computed_columns",
+    "embedding_search",
+    "rag_pipelines",
+    "tool_calling_agents",
+    "http_serving",
+    "cloud_deploy",
+    "public_datasets",
+    "nlweb_ask",
+    "webmcp",
+    "agent_skill"
+  ],
+  "capabilities": {
+    "ask": {
+      "endpoint": "https://pixeltable.com/ask",
+      "method": "POST",
+      "protocol": "NLWeb",
+      "streaming": true,
+      "rate_limit": "20 requests per minute per IP",
+      "description": "Ask natural-language questions about Pixeltable; returns grounded answers with sources."
+    },
+    "mcp": {
+      "webmcp": {
+        "url": "https://pixeltable.com/mcp",
+        "transport": "http",
+        "read_only": true
+      },
+      "server_card": "https://pixeltable.com/.well-known/mcp/server-card.json",
+      "servers": [
+        {
+          "name": "pixeltable-developer",
+          "description": "MCP server exposing Pixeltable developer tooling and documentation.",
+          "repository": "https://github.com/pixeltable/mcp-server-pixeltable-developer",
+          "install": "uv tool install --from git+https://github.com/pixeltable/mcp-server-pixeltable-developer.git mcp-server-pixeltable-developer"
+        },
+        {
+          "name": "pixeltable-memory",
+          "description": "MCP server providing multimodal memory backed by Pixeltable.",
+          "repository": "https://github.com/pixeltable/pixeltable-mcp-server",
+          "install": "See repository for setup instructions"
+        }
+      ]
+    },
+    "skill": {
+      "id": "pixeltable/pixeltable-skill",
+      "install": "npx skills add pixeltable/pixeltable-skill",
+      "repository": "https://github.com/pixeltable/pixeltable-skill",
+      "description": "Agent Skill that gives AI coding agents deep Pixeltable expertise."
+    },
+    "context": {
+      "llmsTxt": "https://pixeltable.com/llms.txt",
+      "markdown": "Append .md to most page URLs, or send 'Accept: text/markdown'."
+    }
+  },
+  "api": {
+    "agent_endpoints": [
+      {
+        "method": "POST",
+        "path": "/ask",
+        "description": "NLWeb natural-language Q&A with SSE streaming"
+      },
+      {
+        "method": "GET",
+        "path": "/mcp",
+        "description": "WebMCP transport descriptor"
+      },
+      {
+        "method": "POST",
+        "path": "/mcp",
+        "description": "WebMCP JSON-RPC (initialize, tools/list, tools/call)"
+      },
+      {
+        "method": "GET",
+        "path": "/llms.txt",
+        "description": "LLM-friendly product overview"
+      },
+      {
+        "method": "GET",
+        "path": "/developers/llms.txt",
+        "description": "Developer-scoped context"
+      },
+      {
+        "method": "GET",
+        "path": "/*.md",
+        "description": "Markdown representation of public pages"
+      }
+    ],
+    "cloud_control_plane": {
+      "base_url": "https://internal-api.pixeltable.com",
+      "status": "authenticated_only",
+      "note": "Used by Pixeltable Cloud dashboard and pxt CLI; public OpenAPI in development"
+    }
+  },
+  "mcp": {
+    "webmcp": {
+      "url": "https://pixeltable.com/mcp",
+      "transport": "http",
+      "read_only": true
+    },
+    "server_card": "https://pixeltable.com/.well-known/mcp/server-card.json",
+    "servers": [
+      {
+        "name": "pixeltable-developer",
+        "description": "MCP server exposing Pixeltable developer tooling and documentation.",
+        "repository": "https://github.com/pixeltable/mcp-server-pixeltable-developer",
+        "install": "uv tool install --from git+https://github.com/pixeltable/mcp-server-pixeltable-developer.git mcp-server-pixeltable-developer"
+      },
+      {
+        "name": "pixeltable-memory",
+        "description": "MCP server providing multimodal memory backed by Pixeltable.",
+        "repository": "https://github.com/pixeltable/pixeltable-mcp-server",
+        "install": "See repository for setup instructions"
+      }
+    ]
+  },
+  "syndication": {
+    "schema_map": "https://pixeltable.com/schema-map.xml",
+    "sitemap": "https://pixeltable.com/sitemap.xml",
+    "feeds": {
+      "blog_rss": "https://pixeltable.com/blog/feed.xml"
+    },
+    "markdown": {
+      "overview": "https://pixeltable.com/llms.txt",
+      "developers": "https://pixeltable.com/developers/llms.txt",
+      "blog": "https://pixeltable.com/blog/llms.txt",
+      "pricing": "https://pixeltable.com/pricing.md",
+      "pattern": "https://pixeltable.com/{path}.md"
+    }
+  },
+  "contact": {
+    "email": "contact@pixeltable.com",
+    "discord": "https://discord.gg/QPyqFYx2UN",
+    "twitter": "https://twitter.com/pixeltablehq"
+  },
+  "sameAs": [
+    "https://github.com/pixeltable",
+    "https://pypi.org/project/pixeltable/",
+    "https://twitter.com/pixeltablehq",
+    "https://www.linkedin.com/company/pixeltablehq/",
+    "https://discord.gg/QPyqFYx2UN"
+  ]
+}

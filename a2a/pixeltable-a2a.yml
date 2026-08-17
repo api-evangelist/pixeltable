@@ -1,0 +1,88 @@
+generated: '2026-08-17'
+method: probed
+source: https://www.pixeltable.com/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: www.pixeltable.com
+  note: 'https://pixeltable.com/.well-known/agent-card.json 301s to the www host and serves the same document.
+    A SECOND, DISTINCT card is served by the documentation host at
+    https://docs.pixeltable.com/.well-known/agent-card.json and is saved alongside as
+    pixeltable-docs-agent-card.json; it is graded separately below. The legacy path
+    /.well-known/agent.json also returns HTTP 200 on the apex host, but its body is NOT an A2A agent card —
+    it is a Pixeltable-specific capability manifest (schemaVersion 1.0, no protocolVersion, no skills array),
+    so it is recorded under well-known/ rather than here.'
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields_present:
+  - preferredTransport
+  - defaultInputModes
+  - defaultOutputModes
+  - documentationUrl
+  - provider
+  - iconUrl
+  deviations: []
+card:
+  name: Pixeltable Assistant
+  url: https://pixeltable.com/ask
+  version: 1.0.0
+  protocol_version: 0.3.0
+  description: 'Agent-to-Agent interface for Pixeltable: answer questions about Pixeltable''s multimodal AI
+    data infrastructure, APIs, integrations, and usage patterns.'
+  provider_organization: Pixeltable
+  documentation_url: https://docs.pixeltable.com
+  contact: contact@pixeltable.com
+  capabilities:
+    streaming: true
+    pushNotifications: false
+    stateTransitionHistory: false
+  skills: 2
+  skill_ids:
+  - pixeltable-qa
+  - pixeltable-integrations
+  file: pixeltable-agent-card.json
+additional_cards:
+- host: docs.pixeltable.com
+  path: /.well-known/agent-card.json
+  file: pixeltable-docs-agent-card.json
+  name: Pixeltable Documentation
+  protocol_version: '0.3'
+  grade: near-conformant
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  deviations:
+  - supportedInterfaces-instead-of-additionalInterfaces
+  note: 'Passes all three A2A 1.0.0 hard checks but names its interface array `supportedInterfaces`, which is
+    not the 1.0.0 field name (`additionalInterfaces`); protocolVersion is also given as "0.3" rather than a
+    full semantic version. Its single skill points at a provider-published Agent Skill markdown file at
+    https://docs.pixeltable.com/.well-known/agent-skills/pixeltable/skill.md, which is harvested verbatim to
+    skills/pixeltable-skill.md.'
+target_endpoint:
+  url: https://pixeltable.com/ask
+  note: 'The card''s url field points at the NLWeb ask endpoint rather than a dedicated A2A JSON-RPC path.
+    That endpoint was probed directly and answers anonymously (HTTP 200 to a POST carrying a non-empty
+    `query`), so the advertised target is live. It is catalogued as the pixeltable-ask API in apis.yml.'
+x-evidence:
+  fetched: '2026-08-17'
+  url: https://www.pixeltable.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  bytes: 1859
+  additional:
+  - url: https://docs.pixeltable.com/.well-known/agent-card.json
+    http_status: 200
+    content_type: application/json
+    bytes: 1260
+  - url: https://www.pixeltable.com/.well-known/agent.json
+    http_status: 200
+    content_type: application/json; charset=utf-8
+    note: not-an-a2a-card

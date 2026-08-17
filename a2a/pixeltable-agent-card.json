@@ -1,0 +1,45 @@
+{
+  "protocolVersion": "0.3.0",
+  "name": "Pixeltable Assistant",
+  "description": "Agent-to-Agent interface for Pixeltable: answer questions about Pixeltable's multimodal AI data infrastructure, APIs, integrations, and usage patterns.",
+  "url": "https://pixeltable.com/ask",
+  "preferredTransport": "JSONRPC",
+  "version": "1.0.0",
+  "documentationUrl": "https://docs.pixeltable.com",
+  "iconUrl": "https://pixeltable.com/images/favicon.png",
+  "provider": {
+    "organization": "Pixeltable",
+    "url": "https://pixeltable.com"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json", "text/markdown"],
+  "skills": [
+    {
+      "id": "pixeltable-qa",
+      "name": "Pixeltable Q&A",
+      "description": "Answer natural-language questions about Pixeltable concepts, computed columns, embeddings, similarity search, UDFs, and AI provider integrations.",
+      "tags": ["documentation", "multimodal", "ai-data-infrastructure", "rag", "vector-search"],
+      "examples": [
+        "How do I create a computed column that transcribes audio?",
+        "How does Pixeltable compare to a vector database plus LangChain?",
+        "Show me how to add an embedding index for similarity search."
+      ]
+    },
+    {
+      "id": "pixeltable-integrations",
+      "name": "Integration guidance",
+      "description": "Explain how to integrate Pixeltable with OpenAI, Anthropic, Gemini, and 25+ other AI providers and tools.",
+      "tags": ["integrations", "llm", "providers"],
+      "examples": [
+        "Which AI providers does Pixeltable support?",
+        "How do I use OpenAI chat completions inside a computed column?"
+      ]
+    }
+  ],
+  "contact": "contact@pixeltable.com"
+}

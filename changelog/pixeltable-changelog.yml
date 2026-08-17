@@ -1,0 +1,90 @@
+generated: '2026-08-17'
+method: searched
+source: https://docs.pixeltable.com/changelog/changelog
+note: 'Pixeltable publishes a dated, per-release changelog on its documentation host, mirrored from GitHub
+  Releases (https://github.com/pixeltable/pixeltable/releases) and also available in full text at
+  https://docs.pixeltable.com/llms-full.txt. Recent window only — the published history runs back to the
+  v0.5.x series and earlier.'
+scheme: semver
+current_version: 0.7.2
+current_version_date: '2026-08-14'
+cadence: 'Roughly weekly to fortnightly patch/minor releases; every entry carries a release date, an author,
+  and a link to the GitHub release tag.'
+release_notes_url: https://github.com/pixeltable/pixeltable/releases
+entries:
+- version: 0.7.2
+  date: '2026-08-14'
+  breaking:
+  - Removed support for Python 3.10
+  - Stopped adding b-tree indexes by default (Table.add_btree_index() now explicit)
+  - Removed everything Reve-related
+  additions:
+  - Client-side database name validation
+  - Local dashboard design system with sticky catalog switcher
+  highlights: Python 3.10 dropped and default b-tree index creation disabled — both consumer-visible changes.
+- version: 0.7.1
+  date: '2026-08-07'
+  breaking:
+  - Renamed "unversioned" tables to "operational" and "versioned" tables to "data versioned"
+  additions:
+  - Test timeouts
+  highlights: Terminology rename across the table model, plus a documentation shrink of the user guide.
+- version: 0.7.0
+  date: '2026-08-01'
+  breaking: []
+  additions:
+  - View.compute()
+  - TableModel.diff_all() and update_all()
+  - Cloud-hosted database support
+  - Dashboard with multi-catalog browsing and pipeline inspection
+  highlights: 'The minor release that introduced cloud-hosted databases — the Cloud step of the
+    Declare/Local/Cloud loop.'
+- version: 0.6.8
+  date: '2026-07-20'
+  breaking: []
+  additions:
+  - Nebius Token Factory LLM provider integration
+  - OpenTelemetry instrumentation
+  - Reve v2 API support
+  highlights: OpenTelemetry instrumentation added (Reve support was then removed again in 0.7.2).
+- version: 0.6.7
+  date: '2026-07-14'
+  breaking:
+  - Removed LabelStudio external stores
+  additions:
+  - Class-based table declarators
+  - Delegated execution
+  - SAM V3 segmentation support
+  highlights: Class-based declarative table definitions introduced.
+- version: 0.6.6
+  date: '2026-06-23'
+  breaking:
+  - Removed data sharing and replica functionality
+  additions: []
+  highlights: Data sharing and replicas withdrawn from the open-source library.
+- version: 0.6.5
+  date: '2026-06-12'
+- version: 0.6.4
+  date: '2026-06-03'
+- version: 0.6.3
+  date: '2026-05-22'
+notable_removals:
+  note: 'Captured because they are the closest thing to a deprecation record this provider publishes — see
+    lifecycle/pixeltable-lifecycle.yml, which records that there is no separate deprecation policy page.'
+  items:
+  - change: Python 3.10 support discontinued
+    version: 0.7.2
+  - change: Default b-tree index creation disabled
+    version: 0.7.2
+  - change: Data sharing and replica functionality removed
+    version: 0.6.6
+  - change: LabelStudio external stores removed
+    version: 0.6.7
+  - change: PyMuPDF dependency eliminated
+    version: 0.5.6
+  - change: DataFrame renamed to Query; DataFrameResultSet renamed to ResultSet
+    version: 0.5.0
+x-evidence:
+- url: https://docs.pixeltable.com/changelog/changelog
+  http_status: 200
+  fetched: '2026-08-17'

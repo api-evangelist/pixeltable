@@ -1,0 +1,131 @@
+generated: '2026-08-17'
+method: searched
+source: 'https://docs.pixeltable.com/llms-full.txt, https://pixeltable.com/developers/llms.txt,
+  https://pixeltable.com/llms.txt'
+name: pxt
+description: 'First-party CLI shipped inside the core `pixeltable` PyPI package. It is the operator surface for
+  the whole Declare/Local/Cloud loop: scaffold a project, inspect and mutate the local catalog, serve tables as
+  HTTP endpoints, and deploy the same declarative schema to Pixeltable Cloud.'
+install:
+- method: pip
+  command: pip install pixeltable
+  note: The `pxt` binary ships with the core library; there is no separate CLI package.
+- method: uvx
+  command: uvx pixeltable-new myapp
+  note: Standalone scaffolder, runnable without installing Pixeltable first. Also available as `pxt init myapp`
+    once the library is installed.
+command_groups:
+- group: project
+  commands:
+  - name: pxt init
+    summary: Scaffold a new Pixeltable project in the current environment.
+  - name: pxt shell
+    summary: Open an interactive Pixeltable shell.
+  - name: pxt dashboard
+    summary: Launch the local dashboard for browsing tables, media and pipeline DAGs.
+  - name: pxt status
+    summary: Report local Pixeltable status.
+- group: catalog navigation
+  commands:
+  - name: pxt ls
+    summary: List catalog contents (`pxt ls -l` for long form).
+  - name: pxt cd
+    summary: Change the current catalog directory.
+  - name: pxt pwd
+    summary: Print the current catalog directory.
+  - name: pxt describe
+    summary: Describe a table, including columns and computed-column definitions.
+  - name: pxt columns
+    summary: List a table's columns.
+  - name: pxt computed
+    summary: List a table's computed columns.
+  - name: pxt count
+    summary: Count rows in a table.
+  - name: pxt rows
+    summary: Show rows from a table.
+- group: table lifecycle
+  commands:
+  - name: pxt mv
+    summary: Move or rename a table.
+  - name: pxt drop
+    summary: Drop a table.
+  - name: pxt history
+    summary: Show a table's version history.
+  - name: pxt revert
+    summary: Revert a table to a previous version.
+  - name: pxt errors
+    summary: Show per-cell computation errors for a table.
+- group: schema
+  commands:
+  - name: pxt schema diff
+    summary: Diff the declared schema against the live catalog.
+  - name: pxt schema update
+    summary: Apply declared schema changes to the catalog.
+  - name: pxt schema prune
+    summary: Remove catalog objects no longer declared.
+  - name: pxt schema example
+    summary: Emit an example schema.
+- group: serving
+  commands:
+  - name: pxt serve
+    summary: Serve declared routes locally (`pxt serve my-service`). Routes are declared in pyproject.toml.
+  - name: pxt serve insert
+    summary: Generated insert route.
+  - name: pxt serve query
+    summary: Generated query route.
+  - name: pxt serve update
+    summary: Generated update route.
+  - name: pxt serve delete
+    summary: Generated delete route.
+- group: cloud
+  commands:
+  - name: pxt deploy
+    summary: Deploy a service to Pixeltable Cloud as a managed HTTP endpoint.
+  - name: pxt service create
+    summary: Create a cloud service.
+  - name: pxt service list
+    summary: List cloud services.
+  - name: pxt service status
+    summary: Show a cloud service's status.
+  - name: pxt service update
+    summary: Update a cloud service.
+  - name: pxt service stop
+    summary: Stop a cloud service.
+  - name: pxt db create
+    summary: Create a cloud database.
+  - name: pxt db list
+    summary: List cloud databases.
+  - name: pxt db status
+    summary: Show cloud database status.
+  - name: pxt db update
+    summary: Update a cloud database.
+  - name: pxt db update-runtime
+    summary: Update a cloud database's runtime.
+  - name: pxt org list
+    summary: List organizations.
+key_flows:
+- flow: Declare then serve locally
+  steps:
+  - uvx pixeltable-new myapp
+  - edit schema.py to declare tables, computed columns and embedding indexes
+  - pxt serve my-service
+- flow: Promote the same app to Cloud
+  steps:
+  - pxt db create
+  - pxt deploy my-service
+  - pxt service status
+- flow: Recover from a bad computed column
+  steps:
+  - pxt errors my-table
+  - pxt history my-table
+  - pxt revert my-table
+config:
+  file: ~/.pixeltable/config.toml
+  holds: AI provider API keys, cache size, time zone
+  route_declaration: pyproject.toml
+  env_vars:
+  - PIXELTABLE_OUTPUT_MEDIA_DEST
+  - PIXELTABLE_INPUT_MEDIA_DEST
+note: 'Command list assembled from the provider''s own published documentation text. Sub-commands and flags
+  beyond those named above exist; this artifact captures the command surface, not an exhaustive flag reference.
+  The canonical reference is https://docs.pixeltable.com/sdk/latest/pixeltable.'

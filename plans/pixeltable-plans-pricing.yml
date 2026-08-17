@@ -1,0 +1,125 @@
+generated: '2026-08-17'
+method: searched
+source: https://pixeltable.com/pricing.md
+note: 'Read from the provider''s machine-readable markdown rendering of its pricing page
+  (https://pixeltable.com/pricing.md, HTTP 200, text/markdown) — the same content as the HTML page at
+  https://pixeltable.com/pricing. Values are quoted as published.'
+currency: USD
+billing_period: monthly
+plan_count: 4
+plans:
+- name: Self-Hosted
+  price: 0
+  currency: USD
+  billing_period: perpetual
+  license: Apache-2.0
+  description: Run Pixeltable on your own infrastructure with full features. Free forever.
+  install: pip install pixeltable
+  included:
+  - Unified storage for images, video, audio, documents, and structured data
+  - Automatic processing via Python UDFs or built-ins
+  - 'AI integration: embeddings, object detection, LLM inference'
+  - Semantic / vector search with incremental updates
+  - Versioning and lineage
+  limits:
+    cloud_databases: 0
+    note: No managed infrastructure; all limits are the operator's own.
+- name: Community
+  price: 0
+  currency: USD
+  billing_period: month
+  description: Best for individuals and small teams getting started. $0 + usage.
+  included:
+  - 1 cloud database and 1 free organization
+  - 1 TB Media Store (hard limit)
+  - 10 GB database storage (hard limit)
+  - $30/mo compute credit
+  - Unlimited hosted tables
+  - Deploy endpoints with scale-to-zero workers
+  - Centralized compute-hours wallet
+  - Community support on Discord
+  limits:
+    cloud_databases: 1
+    media_store: 1 TB hard cap
+    database_storage: 10 GB hard cap
+    compute_credit_monthly: $30
+    always_warm_workers: false
+    bring_your_own_bucket: false
+    custom_domains: false
+    saml_sso: false
+  overage:
+    database_storage: Upgrade to Pro
+    cpu: $0.08 / vCPU-hour after credit
+    gpu: NVIDIA T4 at $0.65 / GPU-hr after credit
+  support: Community (Discord)
+- name: Pro
+  price: 29
+  currency: USD
+  billing_period: month
+  description: Best for growing teams and production applications. $29 / month + usage.
+  included:
+  - Everything in Community
+  - Up to 3 cloud databases on shared managed infrastructure
+  - $50/mo compute credit
+  - Custom domains for Deploy endpoints
+  - Bring-your-own-bucket storage (S3, Azure, GCS, and more) is free
+  - Centralized billing, team management, and email support
+  limits:
+    cloud_databases: 3
+    media_store: 1 TB hard cap
+    database_storage: 10 GB included
+    compute_credit_monthly: $50
+    always_warm_workers: usage-billed
+    bring_your_own_bucket: true
+    custom_domains: true
+    saml_sso: contact us
+  overage:
+    database_storage: $0.40 / GB-mo above 10 GB
+    cpu: $0.08 / vCPU-hour
+    gpu: NVIDIA T4 (16 GB VRAM) at $0.65 / GPU-hr
+  support: Email
+- name: Enterprise
+  price: null
+  currency: USD
+  billing_period: custom
+  description: Best for organizations with custom requirements. Custom pricing.
+  included:
+  - Everything in Pro
+  - Single-tenant VPC deployment, bring-your-own-cloud (BYOC)
+  - Dedicated database and runtime pools with custom specs
+  - Custom GPU capacity
+  - Custom integrations (API / webhooks)
+  - Dedicated support channels & SLAs, volume discounts
+  limits:
+    cloud_databases: Unlimited / dedicated
+    media_store: Custom
+    database_storage: Custom
+    saml_sso: true
+    single_tenant_vpc: true
+  contact: https://pixeltable.com/contact
+  support: Dedicated + SLA
+usage_rates:
+  model: centralized compute-hours wallet
+  note: 'Queries, vector search, Deploy endpoints, workflows, table compute, CPU jobs and GPU jobs all draw on
+    one compute-hours wallet at the rates below. Endpoint requests, query counts, vector operations and
+    workflow runs are not billed separately. Database I/O and egress are included in compute-hours on standard
+    plans. There is no per-seat pricing.'
+  cpu: $0.08 / vCPU-hour
+  gpu:
+  - class: NVIDIA T4
+    vram: 16 GB
+    rate: $0.65 / GPU-hr
+    note: 'Bring-your-own GPU via Runpod, Modal and other hyperscalers is stated as in development.'
+  storage:
+    media_store: 1 TB hard cap on every plan; bring-your-own-bucket is free; no egress fees on managed media
+    database_storage: Community 10 GB hard cap; Pro 10 GB included then $0.40 / GB-mo
+free_tier: true
+open_source: true
+x-evidence:
+- url: https://pixeltable.com/pricing.md
+  http_status: 200
+  content_type: text/markdown; charset=utf-8
+  fetched: '2026-08-17'
+- url: https://pixeltable.com/pricing
+  http_status: 200
+  fetched: '2026-08-17'

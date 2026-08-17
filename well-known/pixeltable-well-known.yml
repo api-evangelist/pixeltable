@@ -1,0 +1,93 @@
+generated: '2026-08-17'
+method: probed
+source: live probes of /.well-known/* on every Pixeltable host in apis.yml
+hosts:
+- host: https://www.pixeltable.com
+  note: pixeltable.com 301s to www.pixeltable.com; both serve the same documents
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: ../a2a/pixeltable-agent-card.json
+    spec: A2A 1.0.0 Agent Card
+    note: Real A2A agent card, graded conformant. Catalogued in a2a/pixeltable-a2a.yml.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: pixeltable-agent.json
+    spec: vendor-specific capability manifest (schemaVersion 1.0)
+    note: 'HTTP 200 with a real JSON document, but NOT an A2A agent card — no protocolVersion and no skills
+      array. It is a Pixeltable-authored capability index naming the documentation set (llms.txt variants),
+      the authentication model per surface, the MCP servers, the Agent Skill, the ask endpoint, the syndication
+      feeds, and the cloud control-plane base URL https://internal-api.pixeltable.com. It is the single
+      richest discovery document this provider publishes and it seeded most of this enrichment pass.'
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    file: pixeltable-mcp-server-card.json
+    spec: MCP server card (vendor shape)
+    note: Lists the remote WebMCP server plus two stdio servers. Catalogued in mcp/pixeltable-mcp.yml.
+  - path: /.well-known/security.txt
+    status: 404
+    note: 'Not served. A security contact IS published, but on the HTML page https://pixeltable.com/security
+      rather than at the RFC 9116 well-known path — see security/pixeltable-vulnerability-disclosure.yml.'
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://docs.pixeltable.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/pixeltable-docs-agent-card.json
+    spec: A2A 1.0.0 Agent Card
+    note: A second, distinct agent card for the documentation surface. Graded near-conformant in a2a/.
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    file: pixeltable-docs-mcp-server-card.json
+    spec: MCP server card (vendor shape)
+    note: Expanded copy of the apex server card served from the documentation host.
+  - path: /.well-known/agent-skills/pixeltable/skill.md
+    status: 200
+    content_type: text/markdown; charset=utf-8
+    file: ../skills/pixeltable-skill.md
+    spec: Agent Skill (frontmatter + markdown)
+    note: Provider-published Agent Skill, referenced by the docs agent card's skills[0].url. Saved verbatim.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://internal-api.pixeltable.com
+  note: 'Cloud control-plane host published by the provider in /.well-known/agent.json and marked
+    authenticated_only. Every anonymous request, well-known paths included, returned HTTP 500
+    ("Internal Server Error : Internal operation '''' failed"), so nothing could be read.'
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 500
+summary:
+  hits: 6
+  distinct_documents: 6
+  oauth_discovery: none
+  security_txt: false
+  api_catalog: false
+  note: 'Six real documents served across two hosts — two A2A agent cards, two MCP server cards, a vendor
+    capability manifest, and an Agent Skill. No OAuth/OIDC discovery metadata is published anywhere, which is
+    consistent with the provider stating that scoped OAuth for a public REST API is still in development.'

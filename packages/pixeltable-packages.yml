@@ -1,0 +1,151 @@
+generated: '2026-08-17'
+method: searched
+source: 'registry metadata endpoints (pypi.org/pypi/<pkg>/json, registry.npmjs.org) plus
+  https://pixeltable.com/llms.txt and https://pixeltable.com/developers/llms.txt'
+note: 'Pixeltable is a Python-first open-source company: the product IS the package. All first-party
+  distribution is PyPI; there is no published npm package. Versions and dates below were read from the
+  registry metadata endpoints on 2026-08-17.'
+packages:
+- language: python
+  registry: pypi
+  name: pixeltable
+  url: https://pypi.org/project/pixeltable/
+  install: pip install pixeltable
+  official: true
+  version: 0.7.2
+  published: '2026-08-14'
+  summary: 'AI Data Infrastructure: Declarative, Multimodal, and Incremental'
+  repository: https://github.com/pixeltable/pixeltable
+  role: core library and the `pxt` CLI
+  note: Actively released; latest version is three days old at harvest. No SDK-decay signal.
+- language: python
+  registry: pypi
+  name: pixeltable-new
+  url: https://pypi.org/project/pixeltable-new/
+  install: uvx pixeltable-new myapp
+  official: true
+  version: 0.4.3
+  published: '2026-07-04'
+  summary: Create a new Pixeltable project in one command
+  repository: https://github.com/pixeltable/pixeltable-new
+  role: project scaffolder
+- language: python
+  registry: pypi
+  name: pixeltable-pgserver
+  url: https://pypi.org/project/pixeltable-pgserver/
+  install: pip install pixeltable-pgserver
+  official: true
+  version: 0.6.0
+  published: '2026-07-14'
+  summary: Embedded Postgres Server for Pixeltable
+  repository: https://github.com/pixeltable/pixeltable-pgserver
+  role: bundled database dependency
+- language: python
+  registry: pypi
+  name: haystack-pixeltable
+  url: https://pypi.org/project/haystack-pixeltable/
+  install: pip install haystack-pixeltable
+  official: true
+  version: 0.1.1
+  published: '2026-08-04'
+  summary: Haystack Document Store and Retriever backed by Pixeltable multimodal data infrastructure
+  repository: https://github.com/pixeltable/haystack-pixeltable
+  role: framework integration
+- language: python
+  registry: pypi
+  name: langchain-pixeltable
+  url: https://pypi.org/project/langchain-pixeltable/
+  install: pip install langchain-pixeltable
+  official: true
+  version: 0.1.2
+  published: '2026-05-27'
+  summary: LangChain VectorStore integration for Pixeltable multimodal data infrastructure
+  repository: https://github.com/pixeltable/langchain-pixeltable
+  role: framework integration
+- language: python
+  registry: pypi
+  name: llama-index-vector-stores-pixeltable
+  url: https://pypi.org/project/llama-index-vector-stores-pixeltable/
+  install: pip install llama-index-vector-stores-pixeltable
+  official: true
+  version: 0.1.2
+  published: '2026-05-27'
+  summary: LlamaIndex VectorStore integration for Pixeltable multimodal data infrastructure
+  repository: https://github.com/pixeltable/llama-index-vector-stores-pixeltable
+  role: framework integration
+- language: python
+  registry: pypi
+  name: langgraph-store-pixeltable
+  url: https://pypi.org/project/langgraph-store-pixeltable/
+  install: pip install langgraph-store-pixeltable
+  official: true
+  version: 0.1.1
+  published: '2026-05-27'
+  summary: 'LangGraph BaseStore backend for Pixeltable — persistent, versioned, multimodal agent memory'
+  repository: https://github.com/pixeltable/langgraph-store-pixeltable
+  role: framework integration
+- language: python
+  registry: pypi
+  name: pixelagent
+  url: https://pypi.org/project/pixelagent/
+  install: pip install pixelagent
+  official: true
+  version: 0.1.5
+  published: '2025-06-05'
+  summary: A modular AI agent framework supporting OpenAI and Anthropic
+  repository: https://github.com/pixeltable/pixelagent
+  role: agent framework
+  note: 'DECAY SIGNAL: last release 2025-06-05, over fourteen months before harvest, while the core library
+    shipped 0.7.2 on 2026-08-14. The GitHub repository was last pushed 2025-06-06. Still advertised in
+    llms.txt under "Repositories and Packages".'
+- language: python
+  registry: pypi
+  name: pixelmemory
+  url: https://pypi.org/project/pixelmemory/
+  install: pip install pixelmemory
+  official: true
+  version: 0.1.0
+  published: '2025-05-20'
+  summary: Multimodal Memory for AI Agents and MCP.
+  repository: https://github.com/pixeltable/pixelmemory
+  role: agent memory layer
+  note: 'DECAY SIGNAL: single 0.1.0 release from 2025-05-20; repository last pushed 2025-09-12.'
+- language: python
+  registry: pypi
+  name: pixeltable-yolox
+  url: https://pypi.org/project/pixeltable-yolox/
+  install: pip install pixeltable-yolox
+  official: true
+  version: 0.4.2
+  published: '2025-04-24'
+  summary: Lightweight, open-source, high-performance Yolo implementation
+  repository: https://github.com/pixeltable/pixeltable-yolox
+  role: object-detection model package
+  note: 'DECAY SIGNAL: last release 2025-04-24; repository last pushed 2025-06-03.'
+claimed_but_unpublished:
+- language: typescript
+  registry: npm
+  name: '@pixeltable/sdk'
+  url: null
+  official: true
+  version: null
+  published: null
+  claimed_at: https://pixeltable.com/developers/llms.txt
+  claim: 'TypeScript SDK (Cloud): `@pixeltable/sdk`'
+  note: 'Checked, nothing to record. https://registry.npmjs.org/@pixeltable%2fsdk returned HTTP 404
+    {"error":"Not found"} on 2026-08-17, and the unscoped name `pixeltable` on npm also returned 404. The
+    provider advertises this TypeScript SDK in its own developer llms.txt but has not published it to npm, so
+    a consumer following that document cannot install it. Recorded as an honest gap rather than omitted.'
+summary:
+  official_count: 10
+  registries:
+  - pypi
+  languages:
+  - python
+  npm_packages: 0
+  unpublished_claims: 1
+  core_library_current: true
+  stale_packages: 3
+  note: 'Ten first-party PyPI packages. The core library and the three framework integrations plus the
+    scaffolder are current (2026 releases); pixelagent, pixelmemory and pixeltable-yolox have not shipped since
+    2025 yet remain advertised. One advertised TypeScript SDK does not exist on npm.'

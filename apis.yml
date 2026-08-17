@@ -1,19 +1,93 @@
 aid: pixeltable
 name: Pixeltable
-description: 'Pixeltable is a company surfaced as a portfolio company of serena and added to the API Evangelist
-  network as a stub for enrichment. Sector: ai-data. This profile is a lead awaiting the enrichment pipeline.'
+description: 'Pixeltable is an open-source (Apache 2.0) Python data infrastructure company building a unified
+  multimodal backend for AI data applications. A single `pip install pixeltable` provides declarative storage,
+  transformation, indexing, retrieval, serving and versioning of images, video, audio, documents and structured
+  data through computed columns that run AI inference incrementally on insert, embedding indexes that stay in
+  sync for vector search, Python UDFs and query functions, and built-in table history and revert. The same
+  declarative schema runs locally via `pxt serve` or a FastAPI router and deploys to Pixeltable Cloud via
+  `pxt deploy` for managed databases, R2-backed media buckets, Deploy endpoints and serverless scale-to-zero
+  workers. Pixeltable integrates 25-plus AI providers including OpenAI, Anthropic, Gemini, Hugging Face,
+  Bedrock, Groq, Mistral, Together, Fireworks, Ollama and Whisper, and positions itself as a replacement for
+  the glue between object storage, Postgres, a vector database, an orchestrator and a framework such as
+  LangChain. The company is unusually agent-forward: it publishes an A2A agent card, a callable read-only
+  WebMCP server, an NLWeb ask endpoint, an installable Agent Skill, markdown representations of its pages, and
+  scoped llms.txt context files. A public REST API with OpenAPI and scoped OAuth is stated as in active
+  development.'
 url: https://raw.githubusercontent.com/api-evangelist/pixeltable/refs/heads/main/apis.yml
 x-type: company
 x-source: serena-portfolio
-x-tier: stub
-x-tier-reason: portfolio-lead
+image: https://pixeltable.com/images/favicon.png
 specificationVersion: '0.20'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
 - Company
 - Ai Data
-apis: []
+- Multimodal AI
+- AI Data Infrastructure
+- Vector Search
+- Embeddings
+- RAG
+- Agent Memory
+- Model Context Protocol
+- Open Source
+- Python
+- Data Orchestration
+- Computed Columns
+- Video Processing
+- Machine Learning
+apis:
+- aid: pixeltable-webmcp
+  name: Pixeltable WebMCP Server
+  description: 'Read-only Model Context Protocol server served over HTTP at the Pixeltable apex host. Protocol
+    version 2025-06-18, JSON-RPC 2.0 (initialize, tools/list, tools/call). Exposes two tools: search_docs,
+    which searches Pixeltable documentation by topic and returns documentation URLs, and list_integrations,
+    which enumerates the AI providers and tools that integrate with Pixeltable. The server mutates no state
+    and answered tools/list anonymously when probed.'
+  humanURL: https://docs.pixeltable.com/libraries/mcp
+  baseURL: https://pixeltable.com/mcp
+  tags:
+  - Model Context Protocol
+  - Agent Tools
+  - Documentation Search
+  properties:
+  - type: MCPServer
+    url: mcp/pixeltable-mcp.yml
+  - type: Documentation
+    url: https://docs.pixeltable.com/libraries/mcp
+- aid: pixeltable-ask
+  name: Pixeltable Ask API (NLWeb)
+  description: 'NLWeb natural-language question-answering endpoint. POST a JSON body containing a non-empty
+    `query` to receive grounded answers with schema.org-typed source results; supports SSE streaming. Answered
+    anonymously when probed. The provider documents a limit of 20 requests per minute per IP.'
+  humanURL: https://pixeltable.com/llms.txt
+  baseURL: https://pixeltable.com/ask
+  tags:
+  - NLWeb
+  - Natural Language Query
+  - Agent Interface
+  properties:
+  - type: RateLimits
+    url: rate-limits/pixeltable-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/pixeltable-problem-types.yml
+- aid: pixeltable-cloud-control-plane
+  name: Pixeltable Cloud Control Plane API
+  description: 'The authenticated HTTP API behind the Pixeltable Cloud dashboard and the `pxt` CLI. The
+    provider publishes the base URL https://internal-api.pixeltable.com in /.well-known/agent.json and marks
+    it authenticated_only, noting that a public OpenAPI is in development. Cloud API keys are sent as
+    X-api-key; the control plane additionally requires a WorkOS AuthKit session. Anonymous probes of the host
+    returned HTTP 500 on every path and /api/v1 on the apex host returned 401 no_session_cookie_provided, so
+    no machine-readable contract could be read.'
+  humanURL: https://pixeltable.com/developers/llms.txt
+  baseURL: https://internal-api.pixeltable.com
+  tags:
+  - Cloud Control Plane
+  - Authenticated API
+  properties:
+  - type: Authentication
+    url: authentication/pixeltable-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -22,3 +96,106 @@ maintainers:
 common:
 - type: Website
   url: https://www.pixeltable.com/
+- type: DeveloperPortal
+  url: https://pixeltable.com/developers/llms.txt
+- type: Documentation
+  url: https://docs.pixeltable.com/
+- type: APIReference
+  url: https://docs.pixeltable.com/sdk/latest/pixeltable
+- type: GettingStarted
+  url: https://docs.pixeltable.com/overview/pixeltable
+- type: Support
+  url: https://discord.gg/QPyqFYx2UN
+- type: Blog
+  url: https://pixeltable.com/blog
+- type: BlogRSS
+  url: https://pixeltable.com/blog/feed.xml
+- type: GitHubOrganization
+  url: https://github.com/pixeltable
+- type: SourceCode
+  url: https://github.com/pixeltable/pixeltable
+- type: Pricing
+  url: https://pixeltable.com/pricing
+- type: SignUp
+  url: https://pixeltable.com/signup
+- type: Login
+  url: https://pixeltable.com/login
+- type: TermsOfService
+  url: https://pixeltable.com/terms
+- type: PrivacyPolicy
+  url: https://pixeltable.com/privacy
+- type: StatusPage
+  url: https://pixeltable.com/status
+- type: Security
+  url: https://pixeltable.com/security
+- type: Sitemap
+  url: https://pixeltable.com/sitemap.xml
+- type: AgentCard
+  url: a2a/pixeltable-a2a.yml
+- type: MCPServer
+  url: mcp/pixeltable-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/pixeltable-llms.txt
+- type: WellKnown
+  url: well-known/pixeltable-well-known.yml
+- type: Packages
+  url: packages/pixeltable-packages.yml
+- type: SDKs
+  url: packages/pixeltable-packages.yml
+- type: CLI
+  url: cli/pixeltable-cli.yml
+- type: Plans
+  url: plans/pixeltable-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/pixeltable-rate-limits.yml
+- type: ChangeLog
+  url: changelog/pixeltable-changelog.yml
+- type: Lifecycle
+  url: lifecycle/pixeltable-lifecycle.yml
+- type: Authentication
+  url: authentication/pixeltable-authentication.yml
+- type: Conventions
+  url: conventions/pixeltable-conventions.yml
+- type: ErrorCatalog
+  url: errors/pixeltable-problem-types.yml
+- type: Conformance
+  url: conformance/pixeltable-conformance.yml
+- type: Sandbox
+  url: sandbox/pixeltable-sandbox.yml
+- type: DomainSecurity
+  url: security/pixeltable-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/pixeltable-vulnerability-disclosure.yml
+x-enrichment:
+  date: '2026-08-17'
+  status: enriched
+  artifacts_added: 27
+  pass: local-v1
+x-contract-discovery:
+  date: '2026-08-17'
+  openapi: none
+  detail: 'STEP 0b ran in full and found no REST contract. https://pixeltable.com/openapi.json returns HTTP 200
+    but its body is an honest placeholder — {"status":"planned","message":"Public Pixeltable Cloud REST API
+    OpenAPI spec is in active development."}. /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs
+    and /redoc were probed on the apex, docs and internal-api hosts with no hit. GraphQL introspection found no
+    endpoint. What the provider DOES publish is a live MCP server (anonymous tools/list returns real
+    inputSchemas) and a conformant A2A agent card, so the machine-readable contract here is MCP, not OpenAPI.
+    No tool crosswalk was emitted because there is no OpenAPI to bind tools to.'
+  probes:
+  - url: https://pixeltable.com/openapi.json
+    status: 200
+    result: placeholder-not-a-spec
+  - url: https://docs.pixeltable.com/openapi.json
+    status: 404
+  - url: https://internal-api.pixeltable.com/openapi.json
+    status: 500
+  - url: https://pixeltable.com/graphql
+    status: 404
+  - url: https://pixeltable.com/mcp
+    status: 200
+    result: tools/list returned 2 tools with inputSchema
+  - url: https://www.pixeltable.com/.well-known/agent-card.json
+    status: 200
+    result: conformant A2A agent card

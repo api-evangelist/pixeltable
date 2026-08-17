@@ -1,0 +1,47 @@
+{
+  "name": "Pixeltable MCP",
+  "description": "Model Context Protocol servers for Pixeltable: read-only web tools, developer tooling, and multimodal memory.",
+  "url": "https://pixeltable.com",
+  "version": "1.0.0",
+  "servers": [
+    {
+      "name": "pixeltable-web",
+      "description": "Read-only WebMCP transport with documentation search and integration listing.",
+      "transport": "http",
+      "url": "https://pixeltable.com/mcp",
+      "protocolVersion": "2025-06-18",
+      "read_only": true,
+      "instructions": "Read-only Pixeltable web tools. Use search_docs to find documentation URLs for a topic, and list_integrations to enumerate supported AI providers and tools. For code generation, fetch the returned documentation URLs or install the Pixeltable Skill (npx skills add pixeltable/pixeltable-skill). This server does not mutate any state.",
+      "tools": [
+        {
+          "name": "search_docs",
+          "description": "Search Pixeltable documentation by topic and return relevant documentation URLs."
+        },
+        {
+          "name": "list_integrations",
+          "description": "List the AI providers and tools that integrate with Pixeltable."
+        }
+      ],
+      "usage": "POST JSON-RPC 2.0 messages (initialize, tools/list, tools/call) to https://pixeltable.com/mcp."
+    },
+    {
+      "name": "pixeltable-developer",
+      "description": "MCP server exposing Pixeltable developer tooling: table inspection, queries, REPL, and documentation.",
+      "transport": "stdio",
+      "repository": "https://github.com/pixeltable/mcp-server-pixeltable-developer",
+      "install": "uv tool install --from git+https://github.com/pixeltable/mcp-server-pixeltable-developer.git mcp-server-pixeltable-developer"
+    },
+    {
+      "name": "pixeltable-memory",
+      "description": "MCP server providing multimodal memory backed by Pixeltable tables.",
+      "transport": "stdio",
+      "repository": "https://github.com/pixeltable/pixeltable-mcp-server",
+      "install": "See repository for setup instructions"
+    }
+  ],
+  "related": {
+    "agent_manifest": "https://pixeltable.com/.well-known/agent.json",
+    "agent_skill": "npx skills add pixeltable/pixeltable-skill",
+    "documentation": "https://docs.pixeltable.com/libraries/mcp"
+  }
+}

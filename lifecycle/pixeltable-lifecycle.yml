@@ -1,0 +1,85 @@
+generated: '2026-08-17'
+method: searched
+source: 'https://docs.pixeltable.com/changelog/changelog, https://pixeltable.com/status,
+  https://github.com/pixeltable/pixeltable/releases'
+versioning:
+  scheme: semver
+  current: 0.7.2
+  current_date: '2026-08-14'
+  applies_to: the pixeltable PyPI package (the product is the library)
+  docs: https://docs.pixeltable.com/changelog/changelog
+  http_api_versioning: none
+  note: 'Still pre-1.0. Minor versions carry breaking changes (0.7.1 renamed table classes, 0.6.6 removed data
+    sharing, 0.7.2 dropped Python 3.10), which is normal for 0.x but means consumers should pin.'
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: 'NO DEPRECATION POLICY IS PUBLISHED. There is no deprecation-policy page, no stated support window, and
+    no RFC 8594 Sunset/Deprecation header support (the public surfaces are read-only and unversioned). Removals
+    and renames ARE announced, but only as changelog line items after the fact — see notable_removals in
+    changelog/pixeltable-changelog.yml. No `Deprecation` pointer is emitted in apis.yml because a changelog
+    that records removals is not a policy that governs them.'
+  observed_removals_recent:
+  - Python 3.10 support (v0.7.2, 2026-08-14)
+  - Default b-tree index creation (v0.7.2)
+  - Reve integration, added in v0.6.8 and removed in v0.7.2 six weeks later
+  - Data sharing and replica functionality (v0.6.6)
+  - LabelStudio external stores (v0.6.7)
+status_page:
+  url: https://pixeltable.com/status
+  verified: probed
+  http_status: 200
+  type: self-hosted static review page
+  components:
+  - name: Website (pixeltable.com)
+    status: Operational
+  - name: Documentation (docs.pixeltable.com)
+    status: Operational
+  - name: Pixeltable Cloud control plane
+    status: Operational
+  - name: Ask endpoint (/ask) and WebMCP (/mcp)
+    status: Operational
+  incident_channels:
+  - https://discord.gg/QPyqFYx2UN
+  - security@pixeltable.com
+  - https://github.com/pixeltable/pixeltable/issues
+  limitations: 'Not a live-monitored status page. It states "Status reflects the most recent operational
+    review" — i.e. it is manually curated, with no uptime percentages, no incident history and no subscribe
+    mechanism. It does, however, carry real agent-facing value: the documented error envelope, HTTP status
+    semantics, the /ask rate limit and the exponential-backoff retry algorithm all live on this page.'
+sla:
+  url: null
+  uptime_target: null
+  note: 'No public SLA. The pricing page reserves "Dedicated support channels & SLAs" for the Enterprise tier
+    (custom pricing, contact sales), so any uptime commitment is contractual rather than published.'
+support:
+  community: https://discord.gg/QPyqFYx2UN
+  issues: https://github.com/pixeltable/pixeltable/issues
+  email_by_tier:
+    community: Community (Discord) only
+    pro: Email
+    enterprise: Dedicated + SLA
+  contact: contact@pixeltable.com
+open_source:
+  license: Apache-2.0
+  repository: https://github.com/pixeltable/pixeltable
+  org: https://github.com/pixeltable
+  public_repos: 19
+  note: 'The core product is open source and self-hostable free forever, so the library''s lifecycle is fully
+    auditable from git history and GitHub Releases — a stronger transparency posture than a policy page.'
+deprecated_operations: []
+deprecated_operations_note: 'Not derivable — no OpenAPI is published, so there are no operations carrying
+  `deprecated: true`.'
+x-evidence:
+- url: https://pixeltable.com/status
+  http_status: 200
+  fetched: '2026-08-17'
+- url: https://docs.pixeltable.com/changelog/changelog
+  http_status: 200
+  fetched: '2026-08-17'
+- url: https://status.pixeltable.com/
+  http_status: 0
+  fetched: '2026-08-17'
+  note: does not resolve — the status page lives at the apex /status path, not a subdomain

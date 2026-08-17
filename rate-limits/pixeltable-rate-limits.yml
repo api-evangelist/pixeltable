@@ -1,0 +1,81 @@
+generated: '2026-08-17'
+method: searched
+source: 'https://www.pixeltable.com/.well-known/agent.json and https://pixeltable.com/status'
+note: 'One published limit, and it is on the agent-facing surface. Pixeltable declares it twice — in its own
+  capability manifest and in the "Rate limits & retry guidance" section of its status page — rather than in a
+  dedicated rate-limit docs page. The status page is the richer of the two: it names the exhaustion status
+  code and publishes an explicit back-off algorithm.'
+limit_count: 1
+limits:
+- scope: per-ip
+  surface: https://pixeltable.com/ask
+  api: pixeltable-ask
+  window: 1 minute
+  limit: 20
+  unit: requests
+  burst: null
+  status_on_exhaustion: 429
+  published_as: 'capabilities.ask.rate_limit: "20 requests per minute per IP"'
+  source: https://www.pixeltable.com/.well-known/agent.json
+  corroborated_by: https://pixeltable.com/status
+  method: searched
+retry_guidance:
+  method: searched
+  source: https://pixeltable.com/status
+  published: 'On 429 or 5xx, retry with exponential backoff: start at ~1s and double each attempt (1s, 2s, 4s,
+    8s), capped at ~30s, with jitter. Stop after 5 attempts. Treat 4xx other than 429 as non-retryable; fix the
+    request instead of retrying.'
+  initial_delay: ~1s
+  multiplier: 2
+  cap: ~30s
+  jitter: true
+  max_attempts: 5
+  retryable_statuses:
+  - 429
+  - 5xx
+  non_retryable: 4xx other than 429
+  note: 'This is unusually good agent guidance for a provider with no OpenAPI — a documented back-off
+    algorithm is exactly what an autonomous client needs, and most catalogued providers do not publish one.'
+response_headers:
+  observed: []
+  documented: []
+  status_on_exhaustion: 429
+  retry_after: null
+  method: probed
+  note: 'CHECKED, NOTHING TO RECORD. Live probes of POST https://www.pixeltable.com/ask and POST
+    https://www.pixeltable.com/mcp on 2026-08-17 both returned HTTP 200 with no RateLimit-*, X-RateLimit-*,
+    or Retry-After response headers, and the provider documents no such headers. So an agent cannot read
+    remaining quota or a server-supplied back-off hint at runtime — it can only read the static 20/min figure
+    and apply the documented client-side exponential back-off. The 429 status is documented (not induced —
+    deliberately not probed to exhaustion). The documented error envelope claims a `retryable: true` boolean
+    on the error body, which is the closest thing to a runtime retry signal on offer.'
+unlimited_or_undocumented:
+- surface: https://pixeltable.com/mcp
+  api: pixeltable-webmcp
+  note: No rate limit published for the WebMCP endpoint and none observed in response headers.
+- surface: https://internal-api.pixeltable.com
+  api: pixeltable-cloud-control-plane
+  note: 'Authenticated-only; no public rate-limit documentation. Anonymous probes returned HTTP 500.'
+- surface: Pixeltable Cloud compute
+  note: 'Cloud consumption is governed by a compute-hours wallet and hard storage caps rather than request
+    rate limits — see plans/pixeltable-plans-pricing.yml. The pricing page states explicitly that endpoint
+    requests, query counts, vector operations and workflow runs are not billed separately.'
+not_a_limit:
+  note: 'A string reading "Rate limits are 1000 requests per minute for standard plans, 10000 for enterprise"
+    appears in https://docs.pixeltable.com/llms-full.txt. It is NOT a Pixeltable limit — it is the body of a
+    fictional documentation chunk used as sample data inside a RAG tutorial. Recorded here so a later pass
+    does not harvest it as real.'
+x-evidence:
+- url: https://www.pixeltable.com/.well-known/agent.json
+  http_status: 200
+  fetched: '2026-08-17'
+- url: https://www.pixeltable.com/ask
+  method: POST
+  http_status: 200
+  fetched: '2026-08-17'
+  note: no rate-limit headers in response
+- url: https://www.pixeltable.com/mcp
+  method: POST
+  http_status: 200
+  fetched: '2026-08-17'
+  note: no rate-limit headers in response

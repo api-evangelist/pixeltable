@@ -1,0 +1,39 @@
+# Pixeltable for Developers
+
+> Scoped developer context: install, SDKs, CLI, serving, MCP, and agent tooling.
+> Full product overview: https://pixeltable.com/llms.txt
+
+## Install
+- Python: `pip install pixeltable`
+- TypeScript SDK (Cloud): `@pixeltable/sdk`
+
+## Core API (Python)
+- Create tables with multimodal columns: `pxt.create_table(name, {col: pxt.Image, ...})`
+- Run AI on insert/change: `table.add_computed_column(out=fn(table.col))`
+- Vector search: `table.add_embedding_index(col, embedding=...)` then `col.similarity(string=query)`
+- Reusable queries: `@pxt.query`; custom functions: `@pxt.udf`
+- Versioning: `table.history()`, `table.revert()`
+
+## Serving & Deploy
+- Local: `pxt serve` or a FastAPI router
+- Cloud: `pxt deploy` turns a table + @pxt.query into a managed HTTP service with
+  auto routes (insert, query, search), per-cell error tracking, and versioned rollback.
+
+## Agent & MCP tooling
+- Agent Skill: `npx skills add pixeltable/pixeltable-skill`
+- MCP servers:
+  - pixeltable-developer: https://github.com/pixeltable/mcp-server-pixeltable-developer
+  - pixeltable-memory: https://github.com/pixeltable/pixeltable-mcp-server
+- WebMCP transport: https://pixeltable.com/mcp
+- Ask endpoint (NLWeb): POST https://pixeltable.com/ask
+
+## Authentication
+- Open-source library: none required.
+- Pixeltable Cloud: API keys via `X-api-key`; WorkOS bearer tokens for the control plane.
+- A public REST API with OpenAPI and scoped OAuth is in active development.
+
+## References
+- Documentation: https://docs.pixeltable.com/
+- API reference: https://docs.pixeltable.com/sdk/latest/pixeltable
+- Full docs as text: https://docs.pixeltable.com/llms-full.txt
+- GitHub: https://github.com/pixeltable/pixeltable

@@ -1,0 +1,99 @@
+generated: '2026-08-17'
+method: probed
+status: published
+source: https://www.pixeltable.com/.well-known/mcp/server-card.json
+deployment:
+  mode: both
+  endpoint: https://pixeltable.com/mcp
+  install: uv tool install --from git+https://github.com/pixeltable/mcp-server-pixeltable-developer.git mcp-server-pixeltable-developer
+  package: https://github.com/pixeltable/mcp-server-pixeltable-developer
+  auth: none
+  verified: probed
+  note: 'Pixeltable ships BOTH a hosted remote server and local stdio servers. The remote WebMCP endpoint at
+    https://pixeltable.com/mcp answered an anonymous JSON-RPC 2.0 tools/list with HTTP 200 and returned real
+    tools with inputSchema (saved verbatim to mcp/pixeltable-tools-list.json), and answered `initialize` with
+    protocolVersion 2025-06-18. The two stdio servers are distributed from GitHub source only — neither
+    mcp-server-pixeltable-developer nor pixeltable-mcp-server is published to PyPI (both 404), so they must be
+    installed from the git repository.'
+server:
+  name: pixeltable-web
+  version: 1.0.0
+  transport: http
+  url: https://pixeltable.com/mcp
+  protocol_version: '2025-06-18'
+  read_only: true
+  auth: none
+  discovery:
+    server_card: https://pixeltable.com/.well-known/mcp/server-card.json
+    transport_descriptor: https://pixeltable.com/mcp
+    docs: https://docs.pixeltable.com/libraries/mcp
+  instructions: 'Read-only Pixeltable web tools. Use `search_docs` to find documentation URLs for a topic, and
+    `list_integrations` to enumerate supported AI providers and tools. For code generation, fetch the returned
+    documentation URLs or install the Pixeltable Skill (npx skills add pixeltable/pixeltable-skill). This
+    server does not mutate any state.'
+  capabilities:
+    tools:
+      listChanged: false
+tools:
+- name: search_docs
+  description: Search Pixeltable documentation by topic and return relevant documentation URLs.
+  input_schema:
+    type: object
+    properties:
+      query:
+        type: string
+        description: Topic or keywords to search for, e.g. "RAG" or "embedding index".
+    required:
+    - query
+  source: live tools/list on https://pixeltable.com/mcp
+- name: list_integrations
+  description: List the AI providers and tools that integrate with Pixeltable.
+  input_schema:
+    type: object
+    properties: {}
+    required: []
+  source: live tools/list on https://pixeltable.com/mcp
+additional_servers:
+- name: pixeltable-developer
+  transport: stdio
+  description: 'MCP server exposing Pixeltable developer tooling: table inspection, queries, REPL, and
+    documentation.'
+  repository: https://github.com/pixeltable/mcp-server-pixeltable-developer
+  install: uv tool install --from git+https://github.com/pixeltable/mcp-server-pixeltable-developer.git mcp-server-pixeltable-developer
+  registry: none
+  note: Not published to PyPI (pypi.org/pypi/mcp-server-pixeltable-developer/json returned 404); git install only.
+- name: pixeltable-memory
+  transport: stdio
+  description: MCP server providing multimodal memory backed by Pixeltable tables.
+  repository: https://github.com/pixeltable/pixeltable-mcp-server
+  install: See repository for setup instructions
+  registry: none
+  note: Not published to PyPI (pypi.org/pypi/pixeltable-mcp-server/json returned 404); git install only. The
+    related `pixelmemory` package IS on PyPI (0.1.0, 2025-05-20) and is catalogued in packages/.
+related:
+  agent_manifest: https://pixeltable.com/.well-known/agent.json
+  agent_card: https://pixeltable.com/.well-known/agent-card.json
+  agent_skill: npx skills add pixeltable/pixeltable-skill
+  documentation: https://docs.pixeltable.com/libraries/mcp
+x-evidence:
+- url: https://www.pixeltable.com/.well-known/mcp/server-card.json
+  http_status: 200
+  content_type: application/json
+  fetched: '2026-08-17'
+- url: https://www.pixeltable.com/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  content_type: application/json
+  fetched: '2026-08-17'
+  note: returned 2 tools with inputSchema, anonymously
+- url: https://www.pixeltable.com/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"initialize",...}'
+  http_status: 200
+  fetched: '2026-08-17'
+  note: 'serverInfo pixeltable-web 1.0.0, protocolVersion 2025-06-18'
+- url: https://docs.pixeltable.com/.well-known/mcp/server-card.json
+  http_status: 200
+  fetched: '2026-08-17'
+  note: docs host serves an expanded copy of the server card, saved to well-known/
