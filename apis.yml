@@ -18,7 +18,7 @@ url: https://raw.githubusercontent.com/api-evangelist/pixeltable/refs/heads/main
 x-type: company
 x-source: serena-portfolio
 image: https://pixeltable.com/images/favicon.png
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
