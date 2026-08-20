@@ -30,6 +30,22 @@ tags:
 - Embeddings
 - RAG
 - Agent Memory
+- MCP
+- Open-Source
+- Python
+- Data Orchestration
+- Computed Columns
+- Video Processing
+- Machine-Learning
+tags_raw:
+- Company
+- Ai Data
+- Multimodal AI
+- AI Data Infrastructure
+- Vector Search
+- Embeddings
+- RAG
+- Agent Memory
 - Model Context Protocol
 - Open Source
 - Python
@@ -48,6 +64,10 @@ apis:
   humanURL: https://docs.pixeltable.com/libraries/mcp
   baseURL: https://pixeltable.com/mcp
   tags:
+  - MCP
+  - Agent Tools
+  - Documentation Search
+  tags_raw:
   - Model Context Protocol
   - Agent Tools
   - Documentation Search
