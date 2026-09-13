@@ -1,0 +1,51 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Pixeltable",
+    "identifier": "did:web:pixeltable.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:pixeltable.com:server:web",
+      "displayName": "Pixeltable Web MCP",
+      "type": "application/mcp-server-card+json",
+      "url": "https://pixeltable.com/.well-known/mcp/server-card.json",
+      "description": "Read-only WebMCP: documentation search and integration listing.",
+      "representativeQueries": [
+        "search Pixeltable documentation for RAG",
+        "list Pixeltable AI provider integrations"
+      ]
+    },
+    {
+      "identifier": "urn:air:pixeltable.com:agent:assistant",
+      "displayName": "Pixeltable Assistant",
+      "type": "application/a2a-agent-card+json",
+      "url": "https://pixeltable.com/.well-known/agent-card.json",
+      "description": "A2A agent card for natural-language Q&A via /ask.",
+      "representativeQueries": [
+        "how do I build a multimodal RAG pipeline in Pixeltable"
+      ]
+    },
+    {
+      "identifier": "urn:air:pixeltable.com:api:openapi",
+      "displayName": "Pixeltable public agent OpenAPI",
+      "type": "application/openapi+json",
+      "url": "https://pixeltable.com/openapi.json",
+      "description": "OpenAPI 3.1 for public /ask, /mcp, and /health.",
+      "representativeQueries": [
+        "Pixeltable OpenAPI spec",
+        "Pixeltable public API endpoints"
+      ]
+    },
+    {
+      "identifier": "urn:air:pixeltable.com:skill:pixeltable",
+      "displayName": "Pixeltable Agent Skill",
+      "type": "application/json",
+      "url": "https://pixeltable.com/.well-known/agent-skills/index.json",
+      "description": "Agent Skills index for the Pixeltable SKILL.md.",
+      "representativeQueries": [
+        "install Pixeltable agent skill"
+      ]
+    }
+  ]
+}
