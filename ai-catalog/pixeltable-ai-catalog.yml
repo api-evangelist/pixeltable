@@ -22,6 +22,7 @@ conformance:
   hard_failures: []
   soft_gaps:
   - content-type-not-ai-catalog-json
+  - did-web-does-not-resolve
   - representativeQueries-outside-2-5
   official_tool:
     tool: ARD conformance-test v0.9.1 (ards-project/ard-spec)
@@ -38,6 +39,11 @@ conformance:
       extension media type. ARD permits extension types without core registration.'
     - '[Pixeltable Agent Skill] Media type ''application/json'' is a valid application extension media
       type. ARD permits extension types without core registration.'
+  did_web:
+    identifier: did:web:pixeltable.com
+    resolved: false
+    verification_methods: 0
+    http_status: 404
 catalog:
   host_display_name: Pixeltable
   host_identifier: did:web:pixeltable.com
