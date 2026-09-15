@@ -1,19 +1,19 @@
 aid: pixeltable
 name: Pixeltable
-description: 'Pixeltable is an open-source (Apache 2.0) Python data infrastructure company building a unified
-  multimodal backend for AI data applications. A single `pip install pixeltable` provides declarative storage,
-  transformation, indexing, retrieval, serving and versioning of images, video, audio, documents and structured
-  data through computed columns that run AI inference incrementally on insert, embedding indexes that stay in
-  sync for vector search, Python UDFs and query functions, and built-in table history and revert. The same
-  declarative schema runs locally via `pxt serve` or a FastAPI router and deploys to Pixeltable Cloud via
-  `pxt deploy` for managed databases, R2-backed media buckets, Deploy endpoints and serverless scale-to-zero
-  workers. Pixeltable integrates 25-plus AI providers including OpenAI, Anthropic, Gemini, Hugging Face,
-  Bedrock, Groq, Mistral, Together, Fireworks, Ollama and Whisper, and positions itself as a replacement for
-  the glue between object storage, Postgres, a vector database, an orchestrator and a framework such as
-  LangChain. The company is unusually agent-forward: it publishes an A2A agent card, a callable read-only
-  WebMCP server, an NLWeb ask endpoint, an installable Agent Skill, markdown representations of its pages, and
-  scoped llms.txt context files. A public REST API with OpenAPI and scoped OAuth is stated as in active
-  development.'
+description: 'Pixeltable is an open-source (Apache 2.0) Python data infrastructure company building a
+  unified multimodal backend for AI data applications. A single `pip install pixeltable` provides declarative
+  storage, transformation, indexing, retrieval, serving and versioning of images, video, audio, documents
+  and structured data through computed columns that run AI inference incrementally on insert, embedding
+  indexes that stay in sync for vector search, Python UDFs and query functions, and built-in table history
+  and revert. The same declarative schema runs locally via `pxt serve` or a FastAPI router and deploys
+  to Pixeltable Cloud via `pxt deploy` for managed databases, R2-backed media buckets, Deploy endpoints
+  and serverless scale-to-zero workers. Pixeltable integrates 25-plus AI providers including OpenAI, Anthropic,
+  Gemini, Hugging Face, Bedrock, Groq, Mistral, Together, Fireworks, Ollama and Whisper, and positions
+  itself as a replacement for the glue between object storage, Postgres, a vector database, an orchestrator
+  and a framework such as LangChain. The company is unusually agent-forward: it publishes an A2A agent
+  card, a callable read-only WebMCP server, an NLWeb ask endpoint, an installable Agent Skill, markdown
+  representations of its pages, and scoped llms.txt context files. A public REST API with OpenAPI and
+  scoped OAuth is stated as in active development.'
 url: https://raw.githubusercontent.com/api-evangelist/pixeltable/refs/heads/main/apis.yml
 x-type: company
 x-source: serena-portfolio
@@ -82,13 +82,13 @@ tags_raw:
 - Video Processing
 - Machine Learning
 apis:
-- aid: pixeltable-webmcp
+- aid: pixeltable:pixeltable-webmcp
   name: Pixeltable WebMCP Server
-  description: 'Read-only Model Context Protocol server served over HTTP at the Pixeltable apex host. Protocol
-    version 2025-06-18, JSON-RPC 2.0 (initialize, tools/list, tools/call). Exposes two tools: search_docs,
-    which searches Pixeltable documentation by topic and returns documentation URLs, and list_integrations,
-    which enumerates the AI providers and tools that integrate with Pixeltable. The server mutates no state
-    and answered tools/list anonymously when probed.'
+  description: 'Read-only Model Context Protocol server served over HTTP at the Pixeltable apex host.
+    Protocol version 2025-06-18, JSON-RPC 2.0 (initialize, tools/list, tools/call). Exposes two tools:
+    search_docs, which searches Pixeltable documentation by topic and returns documentation URLs, and
+    list_integrations, which enumerates the AI providers and tools that integrate with Pixeltable. The
+    server mutates no state and answered tools/list anonymously when probed.'
   humanURL: https://docs.pixeltable.com/libraries/mcp
   baseURL: https://pixeltable.com/mcp
   tags:
@@ -104,11 +104,11 @@ apis:
     url: mcp/pixeltable-mcp.yml
   - type: Documentation
     url: https://docs.pixeltable.com/libraries/mcp
-- aid: pixeltable-ask
+- aid: pixeltable:pixeltable-ask
   name: Pixeltable Ask API (NLWeb)
-  description: 'NLWeb natural-language question-answering endpoint. POST a JSON body containing a non-empty
-    `query` to receive grounded answers with schema.org-typed source results; supports SSE streaming. Answered
-    anonymously when probed. The provider documents a limit of 20 requests per minute per IP.'
+  description: NLWeb natural-language question-answering endpoint. POST a JSON body containing a non-empty
+    `query` to receive grounded answers with schema.org-typed source results; supports SSE streaming.
+    Answered anonymously when probed. The provider documents a limit of 20 requests per minute per IP.
   humanURL: https://pixeltable.com/llms.txt
   baseURL: https://pixeltable.com/ask
   tags:
@@ -120,14 +120,14 @@ apis:
     url: rate-limits/pixeltable-rate-limits.yml
   - type: ErrorCatalog
     url: errors/pixeltable-problem-types.yml
-- aid: pixeltable-cloud-control-plane
+- aid: pixeltable:pixeltable-cloud-control-plane
   name: Pixeltable Cloud Control Plane API
-  description: 'The authenticated HTTP API behind the Pixeltable Cloud dashboard and the `pxt` CLI. The
-    provider publishes the base URL https://internal-api.pixeltable.com in /.well-known/agent.json and marks
-    it authenticated_only, noting that a public OpenAPI is in development. Cloud API keys are sent as
-    X-api-key; the control plane additionally requires a WorkOS AuthKit session. Anonymous probes of the host
-    returned HTTP 500 on every path and /api/v1 on the apex host returned 401 no_session_cookie_provided, so
-    no machine-readable contract could be read.'
+  description: The authenticated HTTP API behind the Pixeltable Cloud dashboard and the `pxt` CLI. The
+    provider publishes the base URL https://internal-api.pixeltable.com in /.well-known/agent.json and
+    marks it authenticated_only, noting that a public OpenAPI is in development. Cloud API keys are sent
+    as X-api-key; the control plane additionally requires a WorkOS AuthKit session. Anonymous probes of
+    the host returned HTTP 500 on every path and /api/v1 on the apex host returned 401 no_session_cookie_provided,
+    so no machine-readable contract could be read.
   humanURL: https://pixeltable.com/developers/llms.txt
   baseURL: https://internal-api.pixeltable.com
   tags:
@@ -227,13 +227,13 @@ x-enrichment:
 x-contract-discovery:
   date: '2026-08-17'
   openapi: none
-  detail: 'STEP 0b ran in full and found no REST contract. https://pixeltable.com/openapi.json returns HTTP 200
-    but its body is an honest placeholder — {"status":"planned","message":"Public Pixeltable Cloud REST API
-    OpenAPI spec is in active development."}. /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs
-    and /redoc were probed on the apex, docs and internal-api hosts with no hit. GraphQL introspection found no
-    endpoint. What the provider DOES publish is a live MCP server (anonymous tools/list returns real
-    inputSchemas) and a conformant A2A agent card, so the machine-readable contract here is MCP, not OpenAPI.
-    No tool crosswalk was emitted because there is no OpenAPI to bind tools to.'
+  detail: STEP 0b ran in full and found no REST contract. https://pixeltable.com/openapi.json returns
+    HTTP 200 but its body is an honest placeholder — {"status":"planned","message":"Public Pixeltable
+    Cloud REST API OpenAPI spec is in active development."}. /openapi.yaml, /swagger.json, /v1/openapi.json,
+    /api-docs, /docs and /redoc were probed on the apex, docs and internal-api hosts with no hit. GraphQL
+    introspection found no endpoint. What the provider DOES publish is a live MCP server (anonymous tools/list
+    returns real inputSchemas) and a conformant A2A agent card, so the machine-readable contract here
+    is MCP, not OpenAPI. No tool crosswalk was emitted because there is no OpenAPI to bind tools to.
   probes:
   - url: https://pixeltable.com/openapi.json
     status: 200
