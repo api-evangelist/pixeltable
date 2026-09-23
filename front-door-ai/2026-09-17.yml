@@ -1,0 +1,34 @@
+# Front Door AI Index — pixeltable — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: pixeltable
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.pixeltable.com
+  final_host: www.pixeltable.com
+  ownership: own
+  owner: pixeltable
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 24
+  host_score: 24
+  density: 26.37
+  words: 910
+  tiers:
+    agentic: 17
+    core: 7
+    model: 0
+  ambiguous: 9
+  top_terms:
+    agent: 9
+    AI: 6
+    MCP: 5
+    vector database: 5
+    embedding: 3
+    AI agent: 1
+    LLMs: 1
+    RAG: 1
+    inference: 1
+    llms.txt: 1
