@@ -59,12 +59,13 @@ tags:
 - RAG
 - Agent Memory
 - MCP
-- Open-Source
+- Open Source
 - Python
 - Data Orchestration
 - Computed Columns
 - Video Processing
-- Machine-Learning
+- Machine Learning
+- A2A
 tags_raw:
 - Company
 - Ai Data
@@ -81,6 +82,9 @@ tags_raw:
 - Computed Columns
 - Video Processing
 - Machine Learning
+- Open-Source
+- Machine-Learning
+- A2A
 apis:
 - aid: pixeltable:pixeltable-webmcp
   name: Pixeltable WebMCP Server
@@ -250,3 +254,10 @@ x-contract-discovery:
   - url: https://www.pixeltable.com/.well-known/agent-card.json
     status: 200
     result: conformant A2A agent card
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://www.pixeltable.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3.0"
+  control: 404
