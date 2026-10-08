@@ -123,3 +123,36 @@ x-evidence:
 - url: https://pixeltable.com/pricing
   http_status: 200
   fetched: '2026-08-17'
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - hybrid
+  - metered
+  units: []
+  plans:
+  - name: Self-Hosted
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Community
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
