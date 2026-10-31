@@ -64,6 +64,119 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Pixeltable is a company surfaced as a portfolio company of serena and added to the API Evangelist network as a stub for enrichment. Sector: ai-data. This profile is a lead awaiting the enrichment pipeline.
+Pixeltable is an open-source (Apache 2.0) Python data infrastructure company building a unified multimodal backend for AI data applications. A single `pip install pixeltable` provides declarative storage, transformation, indexing, retrieval, serving and versioning of images, video, audio, documents and structured data through computed columns that run AI inference incrementally on insert, embedding indexes that stay in sync for vector search, Python UDFs and query functions, and built-in table history and revert. The same declarative schema runs locally via `pxt serve` or a FastAPI router and deploys to Pixeltable Cloud via `pxt deploy` for managed databases, R2-backed media buckets, Deploy endpoints and serverless scale-to-zero workers. Pixeltable integrates 25-plus AI providers including OpenAI, Anthropic, Gemini, Hugging Face, Bedrock, Groq, Mistral, Together, Fireworks, Ollama and Whisper, and positions itself as a replacement for the glue between object storage, Postgres, a vector database, an orchestrator and a framework such as LangChain. The company is unusually agent-forward: it publishes an A2A agent card, a callable read-only WebMCP server, an NLWeb ask endpoint, an installable Agent Skill, markdown representations of its pages, and scoped llms.txt context files. A public REST API with OpenAPI and scoped OAuth is stated as in active development.
 
-Source: portfolio company of [serena](https://github.com/api-evangelist/serena) — https://www.pixeltable.com/
+**Areas:** Company · Ai Data · Multimodal AI · AI Data Infrastructure · Vector Search · Embeddings · RAG · Agent Memory · MCP · Open Source · Python · Data Orchestration
+
+## Pixeltable on APIs.io
+
+Everything profiled for Pixeltable is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/pixeltable/](https://apis.io/providers/pixeltable/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [Pixeltable WebMCP Server](https://apis.io/apis/pixeltable/pixeltable-webmcp/) — Read-only Model Context Protocol server served over HTTP at the Pixeltable apex host. Protocol version 2025-06-18, JSON-RPC 2.0 (initialize, tools/list,…
+- [Pixeltable Ask API (NLWeb)](https://apis.io/apis/pixeltable/pixeltable-ask/) — NLWeb natural-language question-answering endpoint. POST a JSON body containing a non-empty `query` to receive grounded answers with schema.org-typed source…
+- [Pixeltable Cloud Control Plane API](https://apis.io/apis/pixeltable/pixeltable-cloud-control-plane/) — The authenticated HTTP API behind the Pixeltable Cloud dashboard and the `pxt` CLI. The provider publishes the base URL https://internal-api.pixeltable.com…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [pixeltable-web](https://apis.io/servers/pixeltable/pixeltable-web/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Pixeltable Authentication](https://apis.io/security/pixeltable/pixeltable-authentication/)
+- [Pixeltable Domain Security](https://apis.io/security/pixeltable/pixeltable-domain-security/)
+- [Pixeltable Vulnerability Disclosure](https://apis.io/security/pixeltable/pixeltable-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Pixeltable Plans Pricing](https://apis.io/plans/pixeltable/pixeltable-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Pixeltable Rate Limits](https://apis.io/rate-limits/pixeltable/pixeltable-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.pixeltable.com/)
+- [Documentation](https://docs.pixeltable.com/)
+- [Getting started](https://docs.pixeltable.com/overview/pixeltable)
+- [API reference](https://docs.pixeltable.com/sdk/latest/pixeltable)
+- [Pricing](https://pixeltable.com/pricing)
+- [Sign up](https://pixeltable.com/signup)
+- [Support](https://discord.gg/QPyqFYx2UN)
+- [Blog](https://pixeltable.com/blog)
+- [Security](https://pixeltable.com/security)
+- [Terms of service](https://pixeltable.com/terms)
+- [Privacy policy](https://pixeltable.com/privacy)
+- [GitHub](https://github.com/pixeltable)
+- [Status](https://pixeltable.com/status)
+
+## API Evangelist rating
+
+**Kin Score 52.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 65.8 |
+| Developer ergonomics | 85.7 |
+| Access clarity | 76.3 |
+
+**Agent readiness 20.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 28.2** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/pixeltable/](https://apis.io/providers/pixeltable/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Pixeltable: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/pixeltable/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
